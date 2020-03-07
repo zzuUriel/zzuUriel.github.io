@@ -2,13 +2,6 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     <url>
-        <loc>http://www.ruozedata.com/tags/Hexo/</loc>
-        <lastmod>2020-03-06T14:36:45.665Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>http://www.ruozedata.com/tags/hadoop/</loc>
         <lastmod>2020-03-06T23:39:21.210Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -16,8 +9,15 @@
     </url>
 
     <url>
+        <loc>http://www.ruozedata.com/tags/Hexo/</loc>
+        <lastmod>2020-03-07T00:49:27.096Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>http://www.ruozedata.com/tags/spark/</loc>
-        <lastmod>2020-03-07T00:12:29.582Z</lastmod>
+        <lastmod>2020-03-07T01:15:21.734Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
