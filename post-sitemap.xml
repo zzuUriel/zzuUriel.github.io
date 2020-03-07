@@ -7,8 +7,16 @@
     </url>
 
     <url>
-        <loc>http://www.ruozedata.com/article/ruozedata/</loc>
-        <lastmod>2020-02-01T08:17:01.369Z</lastmod>
+        <loc>http://www.ruozedata.com/article/2.spark-2.4.5-bin-2.6.0-cdh5.15.1.tgz/</loc>
+        <lastmod>2020-03-07T00:04:29.886Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://www.ruozedata.com/article/1.single-noge-cluster/</loc>
+        <lastmod>2020-03-06T23:39:21.210Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -16,7 +24,7 @@
 
     <url>
         <loc>http://www.ruozedata.com/article/hexo-theme-jepson/</loc>
-        <lastmod>2020-02-01T08:17:01.353Z</lastmod>
+        <lastmod>2020-03-06T14:36:45.665Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

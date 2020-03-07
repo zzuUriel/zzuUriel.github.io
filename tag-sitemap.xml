@@ -3,14 +3,21 @@
 
     <url>
         <loc>http://www.ruozedata.com/tags/Hexo/</loc>
-        <lastmod>2020-02-01T08:17:01.353Z</lastmod>
+        <lastmod>2020-03-06T14:36:45.665Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>http://www.ruozedata.com/tags/ruozedata/</loc>
-        <lastmod>2020-02-01T08:17:01.369Z</lastmod>
+        <loc>http://www.ruozedata.com/tags/hadoop/</loc>
+        <lastmod>2020-03-06T23:39:21.210Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>http://www.ruozedata.com/tags/spark/</loc>
+        <lastmod>2020-03-07T00:04:29.886Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
