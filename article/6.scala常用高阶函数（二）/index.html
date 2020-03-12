@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-           Spark RDD定义与特性  - 暗也橙子 | Blog
+           Scala常用高阶函数(二） - 暗也橙子 | Blog
         
     </title>
 
-    <link rel="canonical" href="http://www.ruozedata.com/article/4.spark RDD定义与特性/">
+    <link rel="canonical" href="http://www.ruozedata.com/article/6.scala常用高阶函数（二）/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -88,14 +88,14 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#spark" title="spark">spark</a>
+                              <a class="tag" href="/tags/#scala" title="scala">scala</a>
                             
                         </div>
-                        <h1> Spark RDD定义与特性 </h1>
+                        <h1> Scala常用高阶函数(二）</h1>
                         <h2 class="subheading"></h2>
                         <span class="meta">
                             Posted by 暗也橙子 on
-                            2019-06-11
+                            2019-05-22
                         </span>
                     </div>
                 
@@ -205,40 +205,31 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h3 id="spark-rdd定义与特性">Spark RDD定义与特性</h3>
+                <h3 id="scala常用高阶函数二">Scala常用高阶函数（二）</h3>
 <hr>
-<h4 id="官网">官网</h4>
-<p><a href="http://spark.apache.org" target="_blank" rel="noopener">http://spark.apache.org</a></p>
-<h4 id="什么是rdd">什么是RDD</h4>
-<p>RDD（Resilient Distributed Dataset）叫做分布式数据集，是spark中最基本的数据抽象，它代表一个不可变、可分区、里面的元素可并行计算的集合。RDD具有数据流模型的特点：自动容错、位置感知性调度和可伸缩性</p>
-<h4 id="rdd的特性">RDD的特性</h4>
-<h5 id="rdd在源码的介绍">RDD在源码的介绍</h5>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- A list <span class="keyword">of</span> partitions</span><br><span class="line">- A <span class="function"><span class="keyword">function</span> <span class="title">for</span> <span class="title">computing</span> <span class="title">each</span> <span class="title">split</span></span></span><br><span class="line"><span class="function">- <span class="title">A</span> <span class="title">list</span> <span class="title">of</span> <span class="title">dependencies</span> <span class="title">on</span> <span class="title">other</span> <span class="title">RDDs</span></span></span><br><span class="line"><span class="function">- <span class="title">Optionally</span>, <span class="title">a</span> <span class="title">Partitioner</span> <span class="title">for</span> <span class="title">key</span>-<span class="title">value</span> <span class="title">RDDs</span> (<span class="params">e.g. to say that the RDD is hash-partitioned</span>)</span></span><br><span class="line"><span class="function">- <span class="title">Optionally</span>, <span class="title">a</span> <span class="title">list</span> <span class="title">of</span> <span class="title">preferred</span> <span class="title">locations</span> <span class="title">to</span> <span class="title">compute</span> <span class="title">each</span> <span class="title">split</span> <span class="title">on</span> (<span class="params">e.g. block locations for an HDFS file</span>)</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>一组分片（partition），即数据集的基本组成单位。对于RDD来说，每个分片都会被一个计算任务处理，并决定并行计算的粒度，用户可以在创建RDD时指定RDD的分片个数，如果没有指定，那么就会采用默认值，默认值就是程序所分配到的CPU core的数目。</li>
-<li>一个计算每个分区的函数。Spark中RDD的计算是以分片为单位的，每个RDD都会实现compute函数以达到这个目的。compute函数会对迭代器进行复合，不需要保存每次计算的结果。</li>
-<li>RDD之间的依赖关系。RDD的每次转换都会生成一个新的RDD，所以RDD之间就会形成类似于流水线一样的前后依赖关系。在部分分区数据丢失时，Spark可以通过这个依赖关系重新计算丢失的分区数据，而不是对RDD的所有分区进行重新计算。</li>
-<li>一个Partitioner，即RDD的分片函数。当前Spark中实现了两种类型的分片函数，一个是基于哈希的HashPartitioner，另外一个是基于范围的RangePartitioner。只有对于于key-value的RDD，才会有Partitioner，非key-value的RDD的Parititioner的值是None。Partitioner函数不但决定了RDD本身的分片数量，也决定了parent RDD Shuffle输出时的分片数量。</li>
-<li>一个列表，存储存取每个Partition的优先位置（preferred location）。对于一个HDFS文件来说，这个列表保存的就是每个Partition所在的块的位置。按照“移动数据不如移动计算”的理念，Spark在进行任务调度的时候，会尽可能地将计算任务分配到其所要处理数据块的存储位置。</li>
-</ul>
-<h5 id="rdd在源码的体现">RDD在源码的体现</h5>
-<p>打开源码RDD.scala</p>
-<ul>
-<li>对应第二个特性<br>
-def compute(split: Partition, context: TaskContext): Iterator[T]<br>
-计算：其实是对RDD立面的每个分区做计算<br>
-传入的参数：split类型是Partition，context类型是TaskContext</li>
-<li>对应第一个特性<br>
-protected def getPartitions: Array[Partition]<br>
-得到分区，返回的类型Array[Partition]，是一个数组或集合，数组或集合的类型是Partition</li>
-<li>对应第三个特性<br>
-protected def getDependencies: Seq[Dependency[_]] = deps<br>
-得到一个Dependencies</li>
-<li>对应第五个特性<br>
-protected def getPreferredLocations(split: Partition): Seq[String] = Nil</li>
-<li>对应第四个特性<br>
-@transient val partitioner: Option[Partitioner] = None</li>
-</ul>
+<h4 id="柯里化">柯里化</h4>
+<p>柯里化(Currying)指的是把原来接受多个参数的函数变换成接受一个参数的函数过程=&gt;返回值是一个函数，参数就是其余参数，而且第一个参数的值会累计在此函数中。<br>
+定义一个函数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//mutiplyBy这个函数的返回值是一个函数</span></span><br><span class="line"><span class="comment">//该函数的输入是Doulbe，返回值也是Double</span></span><br><span class="line">scala&gt;  def multiplyBy(factor:Double)=<span class="function">(<span class="params">x:Double</span>)=&gt;</span>factor*x</span><br><span class="line">multiplyBy: (factor: Double)Double =&gt; Double</span><br><span class="line"></span><br><span class="line"><span class="comment">//返回的函数作为值函数赋值给变量x</span></span><br><span class="line">scala&gt; val x=multiplyBy(<span class="number">10</span>)</span><br><span class="line">x: <span class="function"><span class="params">Double</span> =&gt;</span> Double = &lt;function1&gt;</span><br><span class="line"> </span><br><span class="line">//变量x现在可以直接当函数使用</span><br><span class="line">scala&gt; x(50)</span><br><span class="line">res10: Double = 500.0</span><br></pre></td></tr></table></figure>
+<p>上述代码可以像这样使用：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; def multiplyBy(factor:Double)=<span class="function">(<span class="params">x:Double</span>)=&gt;</span>factor*x</span><br><span class="line">multiplyBy: (factor: Double)Double =&gt; Double</span><br><span class="line"> </span><br><span class="line"><span class="comment">//这是高阶函数调用的另外一种形式</span></span><br><span class="line">scala&gt; multiplyBy(<span class="number">10</span>)(<span class="number">50</span>)</span><br></pre></td></tr></table></figure>
+<p>那函数柯里化(curry）是怎么样的呢？其实就是将multiplyBy函数定义成如下形式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">scala&gt; def multiplyBy(factor:Double)(x:Double)=x*factor</span><br><span class="line">multiplyBy: (factor: Double)(x: Double)Double</span><br></pre></td></tr></table></figure>
+<p>即通过(factor:Double)(x:Double)定义函数参数，该函数的调用方式如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//柯里化的函数调用方式</span></span><br><span class="line">scala&gt; multiplyBy(<span class="number">10</span>)(<span class="number">50</span>)</span><br><span class="line">res11: Double = <span class="number">500.0</span></span><br><span class="line"> </span><br><span class="line"><span class="comment">//但此时它不能像def multiplyBy(factor:Double)=(x:Double)=&gt;factor*x函数一样，可以输入单个参数进行调用</span></span><br><span class="line">scala&gt; multiplyBy(<span class="number">10</span>)</span><br><span class="line"> </span><br><span class="line">&lt;<span class="built_in">console</span>&gt;:<span class="number">10</span>: error: missing <span class="built_in">arguments</span> <span class="keyword">for</span> method multiplyBy;</span><br><span class="line">follow <span class="keyword">this</span> method <span class="keyword">with</span> <span class="string">`_' if you want to treat it as a partially applied function multiplyBy(10)</span></span><br></pre></td></tr></table></figure>
+<p>错误提示函数multiplyBy缺少参数，如果要这么做的话，需要将其定义为偏函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; multiplyBy(<span class="number">10</span>)_</span><br><span class="line">res12: <span class="function"><span class="params">Double</span> =&gt;</span> Double = &lt;function1&gt;</span><br></pre></td></tr></table></figure>
+<p>那现在我们接着对偏函数进行介绍</p>
+<h4 id="偏函数">偏函数</h4>
+<p>如果你想定义一个函数，而让它只接受和处理其参数定义域范围内的子集，对于这个参数范围外的参数则抛出异常，这样的函数就是偏函数（顾名思异就是这个函数只处理传入来的部分参数）。<br>
+需求： 给定List(1,2,3,4,“test”)，里面的每个Int元素+1</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">val l = List(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="string">"test"</span>)</span><br><span class="line"><span class="comment">//元素+1 ==&gt; 返回List(2,3,4,5)</span></span><br><span class="line">def f1(n:Any) = &#123;</span><br><span class="line">  n.isInstanceOf[Int]</span><br><span class="line">&#125;</span><br><span class="line">def f2(n:Any)= &#123;</span><br><span class="line">  n.asInstanceOf[Int]</span><br><span class="line">&#125;</span><br><span class="line">def f3(n:Int) = &#123;</span><br><span class="line">  n + <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line">println(l.filter(f1).map(f2).map(f3)</span><br><span class="line">运行结果：</span><br><span class="line">List(<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<p>使用偏函数实现：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">val addOne = <span class="keyword">new</span> PartialFunction[Any,Int] &#123;</span><br><span class="line">  override def isDefinedAt(x: Any): <span class="built_in">Boolean</span> =</span><br><span class="line">  <span class="keyword">if</span>(x.isInstanceOf[Int])&#123;</span><br><span class="line">    <span class="literal">true</span></span><br><span class="line">  &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="literal">false</span></span><br><span class="line">  &#125;</span><br><span class="line">  override def apply(v1: Any): Int = v1.asInstanceOf[Int] + <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line">println(l.collect(addOne)</span><br><span class="line">运行结果：</span><br><span class="line">List(<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<p>简化代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">def f4:PartialFunction[Any,Int] = &#123;</span><br><span class="line"><span class="keyword">case</span> i:<span class="function"><span class="params">Int</span> =&gt;</span> i + <span class="number">1</span></span><br><span class="line">&#125; </span><br><span class="line">l.collect(f4)</span><br></pre></td></tr></table></figure>
+<p>直接调用：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">scala&gt; val l = List(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="string">"test"</span>)</span><br><span class="line">l: List[Any] = List(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, test)</span><br><span class="line">scala&gt; l.collect(&#123;</span><br><span class="line">       <span class="keyword">case</span> i:<span class="function"><span class="params">Int</span> =&gt;</span> i + <span class="number">1</span></span><br><span class="line">       &#125;)</span><br><span class="line">res13: List[Int] = List(<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)</span><br><span class="line"><span class="comment">//最简化的版本：</span></span><br><span class="line">scala&gt; l.collect&#123;</span><br><span class="line">       <span class="keyword">case</span> i:<span class="function"><span class="params">Int</span> =&gt;</span> i + <span class="number">1</span></span><br><span class="line">       &#125;</span><br><span class="line">res14: List[Int] = List(<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>)</span><br></pre></td></tr></table></figure>
 
                 
 
@@ -247,12 +238,12 @@ protected def getPreferredLocations(split: Partition): Seq[String] = Nil</li>
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/article/2.spark-2.4.5-bin-2.6.0-cdh5.15.1.tgz/" data-toggle="tooltip" data-placement="top" title=" Spark-2.4.5源码编译">&larr; Previous Post</a>
+                            <a href="/article/4.spark RDD定义与特性/" data-toggle="tooltip" data-placement="top" title=" Spark RDD定义与特性 ">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/article/6.scala常用高阶函数（二）/" data-toggle="tooltip" data-placement="top" title=" Scala常用高阶函数(二）">Next Post &rarr;</a>
+                            <a href="/article/5.scala常用高阶函数/" data-toggle="tooltip" data-placement="top" title=" Scala常用高阶函数 ">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -302,7 +293,7 @@ protected def getPreferredLocations(split: Partition): Seq[String] = Nil</li>
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#spark-rdd定义与特性"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Spark RDD&#x5B9A;&#x4E49;&#x4E0E;&#x7279;&#x6027;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#官网"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">&#x5B98;&#x7F51;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#什么是rdd"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">&#x4EC0;&#x4E48;&#x662F;RDD</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#rdd的特性"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">RDD&#x7684;&#x7279;&#x6027;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#rdd在源码的介绍"><span class="toc-nav-number">1.3.1.</span> <span class="toc-nav-text">RDD&#x5728;&#x6E90;&#x7801;&#x7684;&#x4ECB;&#x7ECD;</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#rdd在源码的体现"><span class="toc-nav-number">1.3.2.</span> <span class="toc-nav-text">RDD&#x5728;&#x6E90;&#x7801;&#x7684;&#x4F53;&#x73B0;</span></a></li></ol></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#scala常用高阶函数二"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Scala&#x5E38;&#x7528;&#x9AD8;&#x9636;&#x51FD;&#x6570;&#xFF08;&#x4E8C;&#xFF09;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#柯里化"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">&#x67EF;&#x91CC;&#x5316;</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#偏函数"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">&#x504F;&#x51FD;&#x6570;</span></a></li></ol></li></ol>
         
         </div>
       </aside>
@@ -322,7 +313,7 @@ protected def getPreferredLocations(split: Partition): Seq[String] = Nil</li>
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#spark" title="spark">spark</a>
+                          <a class="tag" href="/tags/#scala" title="scala">scala</a>
                         
                     </div>
                 </section>
