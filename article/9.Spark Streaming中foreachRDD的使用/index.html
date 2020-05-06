@@ -148,12 +148,12 @@
                     
 
                         
+                    
+
+                        
                         <li>
                             <a href="/tags/">Tags</a>
                         </li>
-                        
-                    
-
                         
                     
 
@@ -215,20 +215,7 @@
 <hr>
 <h4 id="概述">概述</h4>
 <p>在Spark 官网中，foreachRDD被划分到Output Operations on DStreams中，所以我们首先要明确的是，它是一个输出操作的算子，然后再来看官网对它的含义解释：</p>
-<table>
-<thead>
-<tr>
-<th>Output Operation</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>foreachRDD(func)</td>
-<td>The most generic output operator that applies a function, func, to each RDD generated from the stream. This function should push the data in each RDD to an external system, such as saving the RDD to files, or writing it over the network to a database. Note that the function func is executed in the driver process running the streaming application, and will usually have RDD actions in it that will force the computation of the streaming RDDs</td>
-</tr>
-</tbody>
-</table>
+<p><img src="/img/table/foreachRDD.png" alt="enter description here"></p>
 <ul>
 <li>最常用的输出操作</li>
 <li>需要一个函数作为参数，函数作用于DStream中的每一个RDD</li>
