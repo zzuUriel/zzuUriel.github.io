@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="sitemap.xsl"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>http://www.ruozedata.com</loc>
+        <loc>https://zzuuriel.github.io</loc>
         <changefreq>daily</changefreq>
         <priority>1</priority>
     </url>
 
     <url>
-        <loc>http://www.ruozedata.com/article/%E8%A7%A3%E5%86%B3Spark%20on%20YARN%E6%97%B6jar%E5%8C%85%E4%B9%B1%E9%A3%9E%E7%9A%84%E9%97%AE%E9%A2%98/</loc>
+        <loc>https://zzuuriel.github.io/article/%E8%A7%A3%E5%86%B3Spark%20on%20YARN%E6%97%B6jar%E5%8C%85%E4%B9%B1%E9%A3%9E%E7%9A%84%E9%97%AE%E9%A2%98/</loc>
         <lastmod>2020-05-15T14:22:41.554Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -15,7 +15,7 @@
     </url>
 
     <url>
-        <loc>http://www.ruozedata.com/article/9.Spark%20Streaming%E4%B8%ADforeachRDD%E7%9A%84%E4%BD%BF%E7%94%A8/</loc>
+        <loc>https://zzuuriel.github.io/article/9.Spark%20Streaming%E4%B8%ADforeachRDD%E7%9A%84%E4%BD%BF%E7%94%A8/</loc>
         <lastmod>2020-05-06T04:43:24.659Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -23,7 +23,7 @@
     </url>
 
     <url>
-        <loc>http://www.ruozedata.com/article/8.spark%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F%E8%AF%A6%E8%A7%A3(localstandaloneyarn)/</loc>
+        <loc>https://zzuuriel.github.io/article/8.spark%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F%E8%AF%A6%E8%A7%A3(localstandaloneyarn)/</loc>
         <lastmod>2020-04-21T08:24:40.506Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -31,7 +31,7 @@
     </url>
 
     <url>
-        <loc>http://www.ruozedata.com/article/7.scala%E9%9A%90%E5%BC%8F%E8%BD%AC%E6%8D%A2/</loc>
+        <loc>https://zzuuriel.github.io/article/7.scala%E9%9A%90%E5%BC%8F%E8%BD%AC%E6%8D%A2/</loc>
         <lastmod>2020-03-16T12:39:05.969Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -39,7 +39,7 @@
     </url>
 
     <url>
-        <loc>http://www.ruozedata.com/article/6.scala%E5%B8%B8%E7%94%A8%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0%EF%BC%88%E4%BA%8C%EF%BC%89/</loc>
+        <loc>https://zzuuriel.github.io/article/6.scala%E5%B8%B8%E7%94%A8%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0%EF%BC%88%E4%BA%8C%EF%BC%89/</loc>
         <lastmod>2020-03-12T10:34:37.960Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -47,7 +47,7 @@
     </url>
 
     <url>
-        <loc>http://www.ruozedata.com/article/5.scala%E5%B8%B8%E7%94%A8%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0/</loc>
+        <loc>https://zzuuriel.github.io/article/5.scala%E5%B8%B8%E7%94%A8%E9%AB%98%E9%98%B6%E5%87%BD%E6%95%B0/</loc>
         <lastmod>2020-03-11T12:05:03.327Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -55,7 +55,7 @@
     </url>
 
     <url>
-        <loc>http://www.ruozedata.com/article/4.spark%20RDD%E5%AE%9A%E4%B9%89%E4%B8%8E%E7%89%B9%E6%80%A7/</loc>
+        <loc>https://zzuuriel.github.io/article/4.spark%20RDD%E5%AE%9A%E4%B9%89%E4%B8%8E%E7%89%B9%E6%80%A7/</loc>
         <lastmod>2020-03-09T03:06:10.980Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -63,7 +63,7 @@
     </url>
 
     <url>
-        <loc>http://www.ruozedata.com/article/2.spark-2.4.5-bin-2.6.0-cdh5.15.1.tgz/</loc>
+        <loc>https://zzuuriel.github.io/article/2.spark-2.4.5-bin-2.6.0-cdh5.15.1.tgz/</loc>
         <lastmod>2020-03-08T02:20:59.032Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -71,7 +71,7 @@
     </url>
 
     <url>
-        <loc>http://www.ruozedata.com/article/3.Hadoop%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/</loc>
+        <loc>https://zzuuriel.github.io/article/3.Hadoop%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/</loc>
         <lastmod>2020-03-08T02:15:31.303Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -79,7 +79,7 @@
     </url>
 
     <url>
-        <loc>http://www.ruozedata.com/article/hexo-theme-jepson/</loc>
+        <loc>https://zzuuriel.github.io/article/hexo-theme-jepson/</loc>
         <lastmod>2020-03-07T00:49:27.096Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -87,7 +87,7 @@
     </url>
 
     <url>
-        <loc>http://www.ruozedata.com/article/1.single-noge-cluster/</loc>
+        <loc>https://zzuuriel.github.io/article/1.single-noge-cluster/</loc>
         <lastmod>2020-03-06T23:39:21.210Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
