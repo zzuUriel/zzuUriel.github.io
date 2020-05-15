@@ -1,214 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<!-- Head tag -->
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="keyword"  content="">
-    <link rel="shortcut icon" href="/img/ironman-draw.png">
-    <!-- Place this tag in your head or just before your close body tag. -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <title>
-        
-           hadoop官网翻译:Setting up a Single Node Cluster - 暗也橙子 | Blog
-        
-    </title>
-
-    <link rel="canonical" href="http://www.ruozedata.com/article/1.single-noge-cluster/">
-
-    <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-
-    <!-- Custom CSS --> 
-    <link rel="stylesheet" href="/css/beantech.min.css">
-
-    <link rel="stylesheet" href="/css/donate.css">
-    
-    <!-- Pygments Highlight CSS -->
-    <link rel="stylesheet" href="/css/highlight.css">
-
-    <link rel="stylesheet" href="/css/widget.css">
-
-    <link rel="stylesheet" href="/css/rocket.css">
-
-    <link rel="stylesheet" href="/css/signature.css">
-
-    <link rel="stylesheet" href="/css/toc.css">
-
-    <!-- Custom Fonts -->
-    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
-    <!-- Hux change font-awesome CDN to qiniu -->
-    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-
-    <!-- Hux Delete, sad but pending in China
-    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
-    css'>
-    -->
-
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-    <!-- ga & ba script hoook -->
-    <script></script>
-</head>
-
-
-<!-- hack iOS CSS :active style -->
-<body ontouchstart="">
-	<!-- Modified by Yu-Hsuan Yen -->
-<!-- Post Header -->
-<style type="text/css">
-    header.intro-header{
-        
-            background-image: url('/img/article_header/article_header.png')
-            /*post*/
-        
-    }
-    
-</style>
-
-<header class="intro-header" >
-    <!-- Signature -->
-    <div id="signature">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                
-                    <div class="post-heading">
-                        <div class="tags">
-                            
-                              <a class="tag" href="/tags/#hadoop" title="hadoop">hadoop</a>
-                            
-                        </div>
-                        <h1> hadoop官网翻译:Setting up a Single Node Cluster</h1>
-                        <h2 class="subheading"></h2>
-                        <span class="meta">
-                            Posted by 暗也橙子 on
-                            2018-12-11
-                        </span>
-                    </div>
-                
-
-
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-
-	
-    <!-- Navigation -->
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header page-scroll">
-            <button type="button" class="navbar-toggle">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">暗也橙子Blog</a>
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <!-- Known Issue, found by Hux:
-            <nav>'s height woule be hold on by its content.
-            so, when navbar scale out, the <nav> will cover tags.
-            also mask any touch event of tags, unfortunately.
-        -->
-        <div id="huxblog_navbar">
-            <div class="navbar-collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="/">Home</a>
-                    </li>
-
-                    
-
-                        
-                    
-
-                        
-                        <li>
-                            <a href="/archive/">Archives</a>
-                        </li>
-                        
-                    
-
-                        
-                    
-
-                        
-                        <li>
-                            <a href="/tags/">Tags</a>
-                        </li>
-                        
-                    
-                    
-                </ul>
-            </div>
-        </div>
-        <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container -->
-</nav>
-<script>
-    // Drop Bootstarp low-performance Navbar
-    // Use customize navbar with high-quality material design animation
-    // in high-perf jank-free CSS3 implementation
-    var $body   = document.body;
-    var $toggle = document.querySelector('.navbar-toggle');
-    var $navbar = document.querySelector('#huxblog_navbar');
-    var $collapse = document.querySelector('.navbar-collapse');
-
-    $toggle.addEventListener('click', handleMagic)
-    function handleMagic(e){
-        if ($navbar.className.indexOf('in') > 0) {
-        // CLOSE
-            $navbar.className = " ";
-            // wait until animation end.
-            setTimeout(function(){
-                // prevent frequently toggle
-                if($navbar.className.indexOf('in') < 0) {
-                    $collapse.style.height = "0px"
-                }
-            },400)
-        }else{
-        // OPEN
-            $collapse.style.height = "auto"
-            $navbar.className += " in";
-        }
-    }
-</script>
-
-
-    <!-- Main Content -->
-    <!-- Modify by Yu-Hsuan Yen -->
-
-<!-- Post Content -->
-<article>
-    <div class="container">
-        <div class="row">
-
-            <!-- Post Container -->
-            <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                post-container">
-
-                <h3 id="hadoop官网翻译setting-up-a-single-node-cluster">hadoop官网翻译:Setting up a Single Node Cluster.</h3>
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content=""><link rel="stylesheet" type="text/css" href="//fonts.loli.net/css?family=Source+Code+Pro"><link rel="stylesheet" type="text/css" href="/css/style-dark.css?v=2.0.5"><link rel="stylesheet" type="text/css" href="/css/highlight-dark.css?v=2.0.5"><link rel="Shortcut Icon" href="/favicon.ico"><link rel="bookmark" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><title> hadoop官网翻译:Setting up a Single Node Cluster | 暗也橙子Blog</title></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden"> hadoop官网翻译:Setting up a Single Node Cluster</h1><a id="logo" href="/.">暗也橙子Blog</a><p class="description"></p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div><div id="search-form"><div id="result-mask" class="hide"></div><label><input id="search-key" type="text" autocomplete="off" placeholder="搜索"></label><div id="result-wrap" class="hide"><div id="search-result"></div></div><div class="hide"><template id="search-tpl"><div class="item"><a href="/{path}" title="{title}"><div class="title">{title}</div><div class="time">{date}</div><div class="tags">{tags}</div></a></div></template></div></div></div><div id="layout" class="layout-g"><div class="layout-l"><div class="content_container"><div class="post"><h1 class="post-title"> hadoop官网翻译:Setting up a Single Node Cluster</h1><div class="post-meta"><a href="/article/1.single-noge-cluster/#comments" class="comment-count"></a><p><span class="date">Dec 11, 2018</span><span><i id="busuanzi_container_page_pv"><i id="busuanzi_value_page_pv"></i><i>点击</i></i></span></p></div><div class="post-content"><h3 id="hadoop官网翻译setting-up-a-single-node-cluster">hadoop官网翻译:Setting up a Single Node Cluster.</h3>
 <hr>
 <h4 id="hadoop-setting-up-a-single-node-cluster">Hadoop: Setting up a Single Node Cluster.</h4>
 <p>设置单节点集群。</p>
@@ -269,9 +59,9 @@ For example on Ubuntu Linux:<br>
 <p>要获得Hadoop发行版，请从Apache下载镜像下载一个最新的稳定版本</p>
 <h4 id="prepare-to-start-the-hadoop-cluster">Prepare to Start the Hadoop Cluster</h4>
 <p>Unpack the downloaded Hadoop distribution. In the distribution, edit the file etc/hadoop/hadoop-env.sh to define some parameters as follows:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">  　　# set to the root of your Java installation</span><br><span class="line"> 　　 export JAVA_HOME=/usr/java/latest</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">  　　# set to the root of your Java installation</span><br><span class="line"> 　　 export JAVA_HOME&#x3D;&#x2F;usr&#x2F;java&#x2F;latest</span><br></pre></td></tr></table></figure>
 <p>Try the following command:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　 $ bin/hadoop</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　 $ bin&#x2F;hadoop</span><br></pre></td></tr></table></figure>
 <p>This will display the usage documentation for the hadoop script.<br>
 Now you are ready to start your Hadoop cluster in one of the three supported modes:</p>
 <ul>
@@ -280,9 +70,9 @@ Now you are ready to start your Hadoop cluster in one of the three supported mod
 <li><a href="https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html#Fully-Distributed_Operation" target="_blank" rel="noopener">Fully-Distributed Mode</a></li>
 </ul>
 <p>解压缩下载的Hadoop发行版。在发行版中，编辑文件etc/hadoop/hadoop-env.sh以定义以下一些参数：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">　　# set to the root of your Java installation</span><br><span class="line">　 　 export JAVA_HOME=/usr/java/latest</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">　　# set to the root of your Java installation</span><br><span class="line">　 　 export JAVA_HOME&#x3D;&#x2F;usr&#x2F;java&#x2F;latest</span><br></pre></td></tr></table></figure>
 <p>尝试以下命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin/hadoop</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin&#x2F;hadoop</span><br></pre></td></tr></table></figure>
 <p>这个会显示hadoop脚本的使用文档</p>
 <p>现在，您已经准备好在三种支持的模式之一中启动Hadoop集群<br>
 　 ▪ 单机模式：默认情况下运行在一个单独机器上的独立Java进程，主要用于调试环境<br>
@@ -291,10 +81,10 @@ Now you are ready to start your Hadoop cluster in one of the three supported mod
 <h4 id="standalone-operation">Standalone Operation</h4>
 <p>By default, Hadoop is configured to run in a non-distributed mode, as a single Java process. This is useful for debugging.</p>
 <p>The following example copies the unpacked conf directory to use as input and then finds and displays every match of the given regular expression. Output is written to the given output directory.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">　　$ mkdir input</span><br><span class="line">　　$ cp etc/hadoop/*.xml input</span><br><span class="line">　　$ bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.1.jar grep input output &apos;dfs[a-z.]+&apos;</span><br><span class="line">　　$ cat output/*</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">　　$ mkdir input</span><br><span class="line">　　$ cp etc&#x2F;hadoop&#x2F;*.xml input</span><br><span class="line">　　$ bin&#x2F;hadoop jar share&#x2F;hadoop&#x2F;mapreduce&#x2F;hadoop-mapreduce-examples-3.2.1.jar grep input output &#39;dfs[a-z.]+&#39;</span><br><span class="line">　　$ cat output&#x2F;*</span><br></pre></td></tr></table></figure>
 <p>默认情况下，hadoop 被配置为以非分布式模式(作为单个 java 进程)运行。 这对调试很有用。<br>
 下面的示例复制未打包的conf目录作为输入，然后查找并显示给定正则表达式的每个匹配。输出被写入给定的输出目录。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">　　$ mkdir input</span><br><span class="line">　　$ cp etc/hadoop/*.xml input</span><br><span class="line">　　$ bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.1.jar grep input output &apos;dfs[a-z.]+&apos;</span><br><span class="line">　　$ cat output/*</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">　　$ mkdir input</span><br><span class="line">　　$ cp etc&#x2F;hadoop&#x2F;*.xml input</span><br><span class="line">　　$ bin&#x2F;hadoop jar share&#x2F;hadoop&#x2F;mapreduce&#x2F;hadoop-mapreduce-examples-3.2.1.jar grep input output &#39;dfs[a-z.]+&#39;</span><br><span class="line">　　$ cat output&#x2F;*</span><br></pre></td></tr></table></figure>
 <h4 id="pseudo-distributed-operation">Pseudo-Distributed Operation</h4>
 <p>Hadoop can also be run on a single-node in a pseudo-distributed mode where each Hadoop daemon runs in a separate Java process.</p>
 <p>Hadoop还可以在一个伪分布式模式的单个节点上运行，其中每个Hadoop守护进程在单独的Java进程中运行。</p>
@@ -302,9 +92,9 @@ Now you are ready to start your Hadoop cluster in one of the three supported mod
 <p>Use the following:<br>
 使用以下方法：<br>
 etc/hadoop/core-site.xml:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;fs.defaultFS&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;hdfs://localhost:9000&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;fs.defaultFS&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;hdfs:&#x2F;&#x2F;localhost:9000&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">&lt;&#x2F;configuration&gt;</span><br></pre></td></tr></table></figure>
 <p>etc/hadoop/hdfs-site.xml:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;dfs.replication&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;1&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;dfs.replication&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;1&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">&lt;&#x2F;configuration&gt;</span><br></pre></td></tr></table></figure>
 <p>常用配置项说明：<br>
 　　▪ fs.defaultFS这是默认的HDFS路径。当有多个HDFS集群同时工作时，用户在这里指定默认HDFS集群，该值来自于hdfs-site.xml中的配置。<br>
 　　▪ fs.default.name这是一个描述集群中NameNode结点的URI(包括协议、主机名称、端口号)，集群里面的每一台机器都需要知道NameNode的地址。DataNode结点会先在NameNode上注册，这样它们的数据才可以被使用。独立的客户端程序通过这个URI跟DataNode交互，以取得文件的块列表。<br>
@@ -316,7 +106,7 @@ etc/hadoop/core-site.xml:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ ssh localhost</span><br></pre></td></tr></table></figure>
 <p>If you cannot ssh to localhost without a passphrase, execute the following commands:<br>
 如果没有密码无法ssh到localhost，请执行以下命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">　　$ ssh-keygen -t rsa -P &apos;&apos; -f ~/.ssh/id_rsa</span><br><span class="line">　　$ cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</span><br><span class="line">　　$ chmod 0600 ~/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">　　$ ssh-keygen -t rsa -P &#39;&#39; -f ~&#x2F;.ssh&#x2F;id_rsa</span><br><span class="line">　　$ cat ~&#x2F;.ssh&#x2F;id_rsa.pub &gt;&gt; ~&#x2F;.ssh&#x2F;authorized_keys</span><br><span class="line">　　$ chmod 0600 ~&#x2F;.ssh&#x2F;authorized_keys</span><br></pre></td></tr></table></figure>
 <h5 id="execution">Execution</h5>
 <p>The following instructions are to run a MapReduce job locally. If you want to execute a job on YARN, see <a href="http://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html#YARN_on_Single_Node" target="_blank" rel="noopener">YARN on Single Node</a>.</p>
 <p>以下说明将在本地运行MapReduce作业。如果您想在YARN上执行作业，请参阅YARN on Single Node。</p>
@@ -325,12 +115,12 @@ etc/hadoop/core-site.xml:</p>
 <li>Format the filesystem:<br>
 格式化文件系统:</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin/hdfs namenode -format</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin&#x2F;hdfs namenode -format</span><br></pre></td></tr></table></figure>
 <ol start="2">
 <li>Start NameNode daemon and DataNode daemon:<br>
 启动NameNode和DataNode的守护进程:</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ sbin/start-dfs.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ sbin&#x2F;start-dfs.sh</span><br></pre></td></tr></table></figure>
 <p>The hadoop daemon log output is written to the $HADOOP_LOG_DIR directory (defaults to $HADOOP_HOME/logs).<br>
 	   hadoop守护进程日志输出被写入$HADOOP_LOG_DIR目录（默认为$HADOOP_HOME/logs）。</p>
 <ol start="3">
@@ -344,31 +134,31 @@ etc/hadoop/core-site.xml:</p>
 创建执行MapReduce作业所需的HDFS目录：</p>
 </li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin/hdfs dfs -mkdir /user</span><br><span class="line">　　$ bin/hdfs dfs -mkdir /user/&lt;username&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin&#x2F;hdfs dfs -mkdir &#x2F;user</span><br><span class="line">　　$ bin&#x2F;hdfs dfs -mkdir &#x2F;user&#x2F;&lt;username&gt;</span><br></pre></td></tr></table></figure>
 <ol start="5">
 <li>Copy the input files into the distributed filesystem:<br>
 将输入文件复制到分布式文件系统中：</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin/hdfs dfs -mkdir input</span><br><span class="line">　　$ bin/hdfs dfs -put etc/hadoop/*.xml input</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin&#x2F;hdfs dfs -mkdir input</span><br><span class="line">　　$ bin&#x2F;hdfs dfs -put etc&#x2F;hadoop&#x2F;*.xml input</span><br></pre></td></tr></table></figure>
 <ol start="6">
 <li>Run some of the examples provided:<br>
 运行所提供的一些示例：</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.1.jar grep input output &apos;dfs[a-z.]+&apos;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin&#x2F;hadoop jar share&#x2F;hadoop&#x2F;mapreduce&#x2F;hadoop-mapreduce-examples-3.2.1.jar grep input output &#39;dfs[a-z.]+&#39;</span><br></pre></td></tr></table></figure>
 <ol start="7">
 <li>Examine the output files: Copy the output files from the distributed filesystem to the local filesystem and examine them:<br>
 检查输出文件：将输出文件从分布式文件系统复制到本地文件系统，并检查它们：</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin/hdfs dfs -get output output</span><br><span class="line">　　$ cat output/*</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin&#x2F;hdfs dfs -get output output</span><br><span class="line">　　$ cat output&#x2F;*</span><br></pre></td></tr></table></figure>
 <p>or<br>
 　　View the output files on the distributed filesystem:<br>
 　　或者直接在分布式文件系统中查看：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin/hdfs dfs -cat output/*</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin&#x2F;hdfs dfs -cat output&#x2F;*</span><br></pre></td></tr></table></figure>
 <ol start="8">
 <li>When you’re done, stop the daemons with:<br>
 完成后，使用以下命令停止守护进程：</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ sbin/stop-dfs.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ sbin&#x2F;stop-dfs.sh</span><br></pre></td></tr></table></figure>
 <h4 id="yarn-on-a-single-node">YARN on a Single Node</h4>
 <p>You can run a MapReduce job on YARN in a pseudo-distributed mode by setting a few parameters and running ResourceManager daemon and NodeManager daemon in addition.<br>
 The following instructions assume that 1. ~ 4. steps of the above instructions are already executed.</p>
@@ -378,14 +168,14 @@ The following instructions assume that 1. ~ 4. steps of the above instructions a
 <li>Configure parameters as follows:<br>
 etc/hadoop/mapred-site.xml:</li>
 </ol>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">  &lt;configuration&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;mapreduce.framework.name&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;yarn&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br><span class="line">更多说明请参考mapred-default.xml，包含配置文件所有配置项的说明和默认值</span><br></pre></td></tr></table></figure>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">  &lt;configuration&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;mapreduce.framework.name&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;yarn&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">&lt;&#x2F;configuration&gt;</span><br><span class="line">更多说明请参考mapred-default.xml，包含配置文件所有配置项的说明和默认值</span><br></pre></td></tr></table></figure>
 <p>etc/hadoop/yarn-site.xml:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;yarn.nodemanager.aux-services&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;mapreduce_shuffle&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br><span class="line">注：yarn.nodemanager.aux-services通过该配置，用户可以自定义一些服务</span><br><span class="line">更多说明请参考yarn-default.xml，包含配置文件所有配置项的说明和默认值</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;yarn.nodemanager.aux-services&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;mapreduce_shuffle&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">&lt;&#x2F;configuration&gt;</span><br><span class="line">注：yarn.nodemanager.aux-services通过该配置，用户可以自定义一些服务</span><br><span class="line">更多说明请参考yarn-default.xml，包含配置文件所有配置项的说明和默认值</span><br></pre></td></tr></table></figure>
 <ol start="2">
 <li>Start ResourceManager daemon and NodeManager daemon:<br>
 启动ResourceManager守护进程和NodeManager守护进程：</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ sbin/start-yarn.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ sbin&#x2F;start-yarn.sh</span><br></pre></td></tr></table></figure>
 <ol start="3">
 <li>
 <p>Browse the web interface for the ResourceManager; by default it is available at:<br>
@@ -400,309 +190,8 @@ ResourceManager - <a href="http://localhost:8088/" target="_blank" rel="noopener
 完成后，使用以下命令停止守护进程：</p>
 </li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ sbin/stop-yarn.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ sbin&#x2F;stop-yarn.sh</span><br></pre></td></tr></table></figure>
 <h4 id="fully-distributed-operation">Fully-Distributed Operation</h4>
 <p>For information on setting up fully-distributed, non-trivial clusters see <a href="https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/ClusterSetup.html" target="_blank" rel="noopener">Cluster Setup</a>.</p>
 <p>有关全分布集群设置的信息，请参见<a href="https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/ClusterSetup.html" target="_blank" rel="noopener">Cluster Setup</a>.</p>
-
-                
-
-                <hr>
-                <!-- Pager -->
-                <ul class="pager">
-                    
-                        <li class="previous">
-                            <a href="/article/3.Hadoop架构详解/" data-toggle="tooltip" data-placement="top" title=" Hadoop架构详解 ">&larr; Previous Post</a>
-                        </li>
-                    
-                    
-                        <li class="next">
-                            <a href="/article/hexo-theme-jepson/" data-toggle="tooltip" data-placement="top" title="欢迎来到我的大数据博客 ">Next Post &rarr;</a>
-                        </li>
-                    
-                </ul>
-
-                <br>
-
-                <!--打赏-->
-                
-                <!--打赏-->
-
-                <br>
-                <!--分享-->
-                
-                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
-                    <!--  css & js -->
-                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
-                
-                <!--分享-->
-                <br>                       
-                
-                <!-- require APlayer -->
-                
-
-                <!-- duoshuo Share start -->
-                
-                <!-- 多说 Share end-->
-
-                <!-- 多说评论框 start -->
-                
-                <!-- 多说评论框 end -->
-
-                <!-- disqus comment start -->
-                
-                <!-- disqus comment end -->
-
-                
-
-            </div>
-            
-            <!-- Tabe of Content -->
-            <!-- Table of Contents -->
-
-  
-    
-      <aside id="sidebar">
-        <div id="toc" class="toc-article">
-        <strong class="toc-title">Contents</strong>
-        
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#hadoop官网翻译setting-up-a-single-node-cluster"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">hadoop&#x5B98;&#x7F51;&#x7FFB;&#x8BD1;:Setting up a Single Node Cluster.</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#hadoop-setting-up-a-single-node-cluster"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">Hadoop: Setting up a Single Node Cluster.</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#purpose"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">Purpose</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#prerequisites"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">Prerequisites</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#supported-platforms"><span class="toc-nav-number">1.3.1.</span> <span class="toc-nav-text">Supported Platforms</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#required-software"><span class="toc-nav-number">1.3.2.</span> <span class="toc-nav-text">Required Software</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#installing-software"><span class="toc-nav-number">1.3.3.</span> <span class="toc-nav-text">Installing Software</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#download"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">Download</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#prepare-to-start-the-hadoop-cluster"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text">Prepare to Start the Hadoop Cluster</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#standalone-operation"><span class="toc-nav-number">1.6.</span> <span class="toc-nav-text">Standalone Operation</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#pseudo-distributed-operation"><span class="toc-nav-number">1.7.</span> <span class="toc-nav-text">Pseudo-Distributed Operation</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#configuration"><span class="toc-nav-number">1.7.1.</span> <span class="toc-nav-text">Configuration</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#setup-passphraseless-ssh"><span class="toc-nav-number">1.7.2.</span> <span class="toc-nav-text">Setup passphraseless ssh</span></a></li><li class="toc-nav-item toc-nav-level-5"><a class="toc-nav-link" href="#execution"><span class="toc-nav-number">1.7.3.</span> <span class="toc-nav-text">Execution</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#yarn-on-a-single-node"><span class="toc-nav-number">1.8.</span> <span class="toc-nav-text">YARN on a Single Node</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#fully-distributed-operation"><span class="toc-nav-number">1.9.</span> <span class="toc-nav-text">Fully-Distributed Operation</span></a></li></ol></li></ol>
-        
-        </div>
-      </aside>
-    
-
-                
-            <!-- Sidebar Container -->
-            <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                sidebar-container">
-
-                <!-- Featured Tags -->
-                
-                <section>
-                    <!-- no hr -->
-                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
-                    <div class="tags">
-                       
-                          <a class="tag" href="/tags/#hadoop" title="hadoop">hadoop</a>
-                        
-                    </div>
-                </section>
-                
-
-                <!-- Friends Blog -->
-                
-            </div>
-        </div>
-    </div>
-</article>
-
-
-
-
-
-
-
-
-<!-- async load function -->
-<script>
-    function async(u, c) {
-      var d = document, t = 'script',
-          o = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
-      o.src = u;
-      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-      s.parentNode.insertBefore(o, s);
-    }
-</script>
-<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
-<script>
-    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
-        anchors.options = {
-          visible: 'hover',
-          placement: 'left',
-          icon: 'rz'
-        };
-        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
-    })
-</script>
-<style>
-    /* place left on bigger screen */
-    @media all and (min-width: 800px) {
-        .anchorjs-link{
-            position: absolute;
-            left: -0.75em;
-            font-size: 1.1em;
-            margin-top : -0.1em;
-        }
-    }
-</style>
-
-
-<!-- chrome Firefox 中文锚点定位失效-->
-<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
-<!-- smooth scroll behavior polyfill  -->
-<script type="text/javascript" src="/js/smoothscroll.js"></script>
-<script>
-        $('#toc').on('click','a',function(a){
-            // var isChrome = window.navigator.userAgent.indexOf("Chrome") !== -1;
-            // console.log(window.navigator.userAgent,isChrome)
-                // if(isChrome) {
-                    // console.log(a.currentTarget.outerHTML);
-                    // console.log($(a.currentTarget).attr("href"));
-                    //跳转到指定锚点
-                    // document.getElementById(a.target.innerText.toLowerCase()).scrollIntoView(true);
-                    document.getElementById($(a.currentTarget).attr("href").replace("#","")).scrollIntoView({behavior: 'smooth' });
-                // }
-        })  
-</script>
-
-
-    <!-- Footer -->
-    <!-- Footer -->
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <ul class="list-inline text-center">
-                
-                
-                
-
-                
-
-                
-
-
-<!-- 暗夜橙子页脚 -->
-                <p class="copyright text-muted">
-                    Copyright &copy; 2018 By 暗也橙子 | BigData
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="91px" height="20px"
-                    </iframe>
-                </p>
-            </div>
-        </div>
-    </div>
-</footer>
-
-<!-- jQuery -->
-<script src="/js/jquery.min.js"></script>
-
-<!-- Bootstrap Core JavaScript -->
-<script src="/js/bootstrap.min.js"></script>
-
-<!-- Custom Theme JavaScript -->
-<script src="/js/hux-blog.min.js"></script>
-
-
-<!-- async load function -->
-<script>
-    function async(u, c) {
-      var d = document, t = 'script',
-          o = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
-      o.src = u;
-      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-      s.parentNode.insertBefore(o, s);
-    }
-</script>
-
-<!-- 
-     Because of the native support for backtick-style fenced code blocks 
-     right within the Markdown is landed in Github Pages, 
-     From V1.6, There is no need for Highlight.js, 
-     so Huxblog drops it officially.
-
-     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
-     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
--->
-<!--
-    <script>
-        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
-            hljs.initHighlightingOnLoad();
-        })
-    </script>
-    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
--->
-
-
-<!-- jquery.tagcloud.js -->
-<script>
-    // only load tagcloud.js in tag.html
-    if($('#tag_cloud').length !== 0){
-        async("http://www.ruozedata.com/js/jquery.tagcloud.js",function(){
-            $.fn.tagcloud.defaults = {
-                //size: {start: 1, end: 1, unit: 'em'},
-                color: {start: '#bbbbee', end: '#0085a1'},
-            };
-            $('#tag_cloud a').tagcloud();
-        })
-    }
-</script>
-
-<!--fastClick.js -->
-<script>
-    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
-        var $nav = document.querySelector("nav");
-        if($nav) FastClick.attach($nav);
-    })
-</script>
-
-
-<!-- Google Analytics -->
-
-
-<script>
-    // dynamic User by Hux
-    var _gaId = 'UA-XXXXXXXX-X';
-    var _gaDomain = 'yoursite';
-
-    // Originial
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-    ga('create', _gaId, _gaDomain);
-    ga('send', 'pageview');
-</script>
-
-
-
-
-<!-- Baidu Tongji -->
-
-<script>
-    // dynamic User by Hux
-    var _baId = 'xxx';
-
-    // Originial
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "//hm.baidu.com/hm.js?" + _baId;
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-</script>
-
-
-
-
-
-
-	<a id="rocket" href="#top" class=""></a>
-	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
-    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
-<!-- Image to hack wechat -->
-<img src="http://www.ruozedata.com/img/icon_wechat.png" width="0" height="0" />
-<!-- Migrate from head to bottom, no longer block render and still work -->
-
-</body>
-
-</html>
+</div><div class="post-copyright"><blockquote><p>原文作者: 暗也橙子</p><p>原文链接: <a href="http://www.ruozedata.com/article/1.single-noge-cluster/">http://www.ruozedata.com/article/1.single-noge-cluster/</a></p><p>版权声明: 转载请注明出处(必须保留作者署名及链接)</p></blockquote></div><div class="tags"><a href="/tags/hadoop/">hadoop</a></div><div class="post-share"><div class="social-share"><span>分享到:</span></div></div><div class="post-nav"><a href="/article/3.Hadoop架构详解/" class="pre"> Hadoop架构详解 </a><a href="/article/hexo-theme-jepson/" class="next">欢迎来到我的大数据博客 </a></div><div id="comments"></div></div></div></div><div class="layout-r"><div id="sidebar"><div class="search-pla"></div><div id="toc" class="widget"><div class="widget-title"><i class="fa fa-fei">文章目录</i></div><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#hadoop官网翻译setting-up-a-single-node-cluster"><span class="toc-text">hadoop&#x5B98;&#x7F51;&#x7FFB;&#x8BD1;:Setting up a Single Node Cluster.</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#hadoop-setting-up-a-single-node-cluster"><span class="toc-text">Hadoop: Setting up a Single Node Cluster.</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#purpose"><span class="toc-text">Purpose</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#prerequisites"><span class="toc-text">Prerequisites</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#supported-platforms"><span class="toc-text">Supported Platforms</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#required-software"><span class="toc-text">Required Software</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#installing-software"><span class="toc-text">Installing Software</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#download"><span class="toc-text">Download</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#prepare-to-start-the-hadoop-cluster"><span class="toc-text">Prepare to Start the Hadoop Cluster</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#standalone-operation"><span class="toc-text">Standalone Operation</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#pseudo-distributed-operation"><span class="toc-text">Pseudo-Distributed Operation</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#configuration"><span class="toc-text">Configuration</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#setup-passphraseless-ssh"><span class="toc-text">Setup passphraseless ssh</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#execution"><span class="toc-text">Execution</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#yarn-on-a-single-node"><span class="toc-text">YARN on a Single Node</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#fully-distributed-operation"><span class="toc-text">Fully-Distributed Operation</span></a></li></ol></li></ol></div><div class="widget"><div class="widget-title"><i class="fa fa-xie"> 最新文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/article/解决Spark on YARN时jar包乱飞的问题/">解决Spark on YARN时jar包乱飞的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/article/2.spark-2.4.5-bin-2.6.0-cdh5.15.1.tgz/"> Spark-2.4.5源码编译</a></li><li class="post-list-item"><a class="post-list-link" href="/article/9.Spark Streaming中foreachRDD的使用/"> Spark Streaming中foreachRDD的使用 </a></li><li class="post-list-item"><a class="post-list-link" href="/article/8.spark工作模式详解(localstandaloneyarn)/"> Spark工作模式详解(local/standalone/yarn) </a></li><li class="post-list-item"><a class="post-list-link" href="/article/4.spark RDD定义与特性/"> Spark RDD定义与特性 </a></li><li class="post-list-item"><a class="post-list-link" href="/article/7.scala隐式转换/"> Scala隐式转换、隐式参数与隐式类 </a></li><li class="post-list-item"><a class="post-list-link" href="/article/6.scala常用高阶函数（二）/"> Scala常用高阶函数(二）</a></li><li class="post-list-item"><a class="post-list-link" href="/article/5.scala常用高阶函数/"> Scala常用高阶函数 </a></li><li class="post-list-item"><a class="post-list-link" href="/article/3.Hadoop架构详解/"> Hadoop架构详解 </a></li><li class="post-list-item"><a class="post-list-link" href="/article/1.single-noge-cluster/"> hadoop官网翻译:Setting up a Single Node Cluster</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-biao"> 标签</i></div><div class="tagcloud"><a href="/tags/hadoop/" style="font-size: 15px;">hadoop</a> <a href="/tags/spark/" style="font-size: 15px;">spark</a> <a href="/tags/scala/" style="font-size: 15px;">scala</a> <a href="/tags/Hexo/" style="font-size: 15px;">Hexo</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-archive"> 归档</i></div><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">2</span></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-you"> 友情链接</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div></div><a id="totop" href="#top"></a><div id="footer"><div class="footer-info"><p><a href="/baidusitemap.xml">网站地图</a> |  <a href="/atom.xml">订阅本站</a> |  <a href="/about/">联系博主</a></p><p>本站总访问量：<i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>次，本站总访客数:<i id="busuanzi_container_site_uv"><i id="busuanzi_value_site_uv"></i></i>人</p><p><span> Copyright &copy;<a href="/." rel="nofollow">暗也橙子.</a></span><span> Theme by<a rel="nofollow" target="_blank" href="https://github.com/chaooo/hexo-theme-BlueLake"> BlueLake.</a></span><span> Count by<a href="http://busuanzi.ibruce.info/"> busuanzi.</a></span><span> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a></span></p></div></div></div><script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script><script type="text/javascript" src="/js/search.json.js?v=2.0.5"></script><div id="fullscreen-img" class="hide"><span class="close"></span></div><script type="text/javascript" src="/js/imgview.js?v=2.0.5" async></script><script type="text/javascript" src="/js/toctotop.js?v=2.0.5" async></script><link rel="stylesheet" type="text/css" href="/share/css/share.css"><script type="text/javascript" src="/share/js/social-share.js" charset="utf-8"></script><script type="text/javascript" src="/share/js/qrcode.js" charset="utf-8"></script></body></html>
