@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>http://www.ruozedata.com/article/%E8%A7%A3%E5%86%B3Spark%20on%20YARN%E6%97%B6%E5%A4%A7%E9%87%8Fjar%E4%B9%B1%E9%A3%9E%E7%9A%84%E9%97%AE%E9%A2%98/</loc>
+        <lastmod>2020-05-15T14:16:06.168Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>http://www.ruozedata.com/article/9.Spark%20Streaming%E4%B8%ADforeachRDD%E7%9A%84%E4%BD%BF%E7%94%A8/</loc>
         <lastmod>2020-05-06T04:43:24.659Z</lastmod>
         <changefreq>weekly</changefreq>
