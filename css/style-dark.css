@@ -642,8 +642,6 @@ body {
 }
 .post .post-content {
   clear: left;
-}
-#文章字体大小 {
   font-size: 15px;
   line-height: 1.77;
   color: #aaa;
@@ -652,25 +650,25 @@ body {
   text-justify: distribute;
   word-break: break-all;
 }
-#文章字体大小 h2 {
+.post .post-content h2 {
   font-size: 18px;
 }
-#文章字体大小 h3 {
-  font-size: 18px;
-}
-#文章字体大小 h4 {
+.post .post-content h3 {
   font-size: 17px;
 }
-#文章字体大小 h5 {
+.post .post-content h4 {
   font-size: 16px;
 }
-#文章字体大小 h6 {
+.post .post-content h5 {
+  font-size: 15px;
+}
+.post .post-content h6 {
   font-size: 12px;
 }
-#文章字体大小 p {
+.post .post-content p {
   margin: 0 0 1.234em;
 }
-#文章字体大小 p code {
+.post .post-content p code {
   margin: 0 5px;
   padding: 0 5px;
   font-family: Source Code Pro, Monaco, Menlo, Consolas, monospace;
@@ -679,15 +677,15 @@ body {
   font-size: 0.95em;
   word-break: break-all;
 }
-#文章字体大小 p a {
+.post .post-content p a {
   color: #40759b;
   padding-bottom: 2px;
   word-break: break-all;
 }
-#文章字体大小 p a:hover {
+.post .post-content p a:hover {
   text-decoration: underline;
 }
-#文章字体大小 p .caption {
+.post .post-content p .caption {
   color: #40759b;
   display: block;
   font-size: 0.9em;
@@ -695,11 +693,11 @@ body {
   position: relative;
   text-align: center;
 }
-#文章字体大小 blockquote p,
-#文章字体大小 .stressed p {
+.post .post-content blockquote p,
+.post .post-content .stressed p {
   margin: 0;
 }
-#文章字体大小 img {
+.post .post-content img {
   max-width: 100%;
   padding: 0.5em 0;
   margin: auto;
@@ -707,28 +705,28 @@ body {
   cursor: -webkit-zoom-in;
   cursor: zoom-in;
 }
-#文章字体大小 hr {
+.post .post-content hr {
   margin: 2.4em auto;
   border: none;
   border-top: 1px solid #d8e2eb;
   position: relative;
 }
-#文章字体大小 ul,
-#文章字体大小 ol {
+.post .post-content ul,
+.post .post-content ol {
   margin: 0;
   padding: 0 0 0 2em;
   margin: 0 0 1.234em;
 }
-#文章字体大小 ul li ul,
-#文章字体大小 ol li ul,
-#文章字体大小 ul li ol,
-#文章字体大小 ol li ol,
-#文章字体大小 ul li p,
-#文章字体大小 ol li p {
+.post .post-content ul li ul,
+.post .post-content ol li ul,
+.post .post-content ul li ol,
+.post .post-content ol li ol,
+.post .post-content ul li p,
+.post .post-content ol li p {
   margin: 0;
 }
-#文章字体大小 ul code,
-#文章字体大小 ol code {
+.post .post-content ul code,
+.post .post-content ol code {
   margin: 0 5px;
   padding: 0 5px;
   font-family: Source Code Pro, Monaco, Menlo, Consolas, monospace;
@@ -737,17 +735,17 @@ body {
   font-size: 0.95em;
   word-break: break-all;
 }
-#文章字体大小 ul a,
-#文章字体大小 ol a {
+.post .post-content ul a,
+.post .post-content ol a {
   color: #40759b;
   padding-bottom: 2px;
   word-break: break-all;
 }
-#文章字体大小 ul a:hover,
-#文章字体大小 ol a:hover {
+.post .post-content ul a:hover,
+.post .post-content ol a:hover {
   text-decoration: underline;
 }
-.post-copyright blockquote {
+.post .post-copyright blockquote {
   margin: 3em 0 1rem;
   padding: 18px 15px;
   border: 1px solid #40759b;
@@ -757,19 +755,19 @@ body {
   word-wrap: break-word;
   word-break: break-all;
 }
-.tags {
+.post .tags {
   padding-bottom: 0.5em;
   text-align: right;
 }
-.tags a {
+.post .tags a {
   margin-right: 0.5em;
 }
-.tags a:before {
+.post .tags a:before {
   font-family: "iconfont" !important;
   content: "\e008";
   padding-right: 0.3em;
 }
-.post-share::after {
+.post .post-share::after {
   content: ' ';
   display: block;
   clear: both;
@@ -1348,7 +1346,7 @@ table td {
   }
   .archive-wrap .tite {
     padding: 0 15px;
-    font-size: 16px;
+    font-size: 14px;
   }
   .archive-wrap .date {
     left: -62px;
