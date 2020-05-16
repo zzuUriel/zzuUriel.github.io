@@ -100,14 +100,14 @@ em {
 .hidden1 {
   display: none;
 }
-/* iconfont */
+/* iconfont 标签、归档字体 */
 @font-face {
   font-family: "iconfont";
   src: url("../iconfont/iconfont.eot?t=1478071541360");
   src: url("../iconfont/iconfont.eot?t=1478071541360#iefix") format('embedded-opentype'), url("../iconfont/iconfont.woff?t=1478071541360") format('woff'), url("../iconfont/iconfont.ttf?t=1478071541360") format('truetype'), url("../iconfont/iconfont.svg?t=1478071541360#iconfont") format('svg');
 }
 .fa {
-  font-size: 16px;
+  font-size: 18px;
   font-style: normal;
 }
 .fa:before {
@@ -197,12 +197,12 @@ em {
 ::-webkit-scrollbar-thumb:window-inactive {
   background: #021825;
 }
-/* layout */
+/* layout 标签字体下面的字体  */
 body {
-  font-family: "Source Code Pro", Tahoma, "Helvetica Neue", Helvetica, "Hiragino Sans GB", "Microsoft YaHei Light", "Microsoft YaHei", "Source Han Sans CN", "WenQuanYi Micro Hei", Arial, sans-serif;
+  font-family: "Microsoft YaHei Light", "Source Code Pro", Tahoma, "Helvetica Neue", Helvetica, "Hiragino Sans GB", "Microsoft YaHei Light", "Microsoft YaHei", "Source Han Sans CN", "WenQuanYi Micro Hei", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-size: 14px;
+  font-size: 16px;
   color: #999;
   width: 100%;
   height: 100%;
@@ -388,7 +388,7 @@ body {
   font-family: "iconfont" !important;
   content: '\e007';
   position: absolute;
-  left: 15px;
+  left: 16px;
   top: 9px;
   color: #40759b;
 }
@@ -398,7 +398,7 @@ body {
   padding: 7px 11px 7px 35px;
   line-height: 16px;
   width: 100%;
-  border-radius: 15px;
+  border-radius: 16px;
   color: #fff;
   background: rgba(0,0,0,0.8);
   -webkit-box-shadow: 0 0 20px #adc2d7 inset;
@@ -475,7 +475,7 @@ body {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  font-size: 14px;
+  font-size: 16px;
   color: #b3d2ef;
 }
 #search-result .item .title:hover {
@@ -483,7 +483,7 @@ body {
 }
 #search-result .item .time {
   text-align: right;
-  font-size: 12px;
+  font-size: 16px;
 }
 #search-result .item .tags {
   overflow: hidden;
@@ -493,7 +493,7 @@ body {
 #search-result .item .tags span {
   display: inline-block;
   margin-right: 5px;
-  font-size: 12px;
+  font-size: 16px;
 }
 #search-result .item .tags span:before {
   font-family: "iconfont" !important;
@@ -642,6 +642,8 @@ body {
 }
 .post .post-content {
   clear: left;
+}
+#文章字体大小 {
   font-size: 15px;
   line-height: 1.77;
   color: #aaa;
@@ -650,25 +652,25 @@ body {
   text-justify: distribute;
   word-break: break-all;
 }
-.post .post-content h2 {
+#文章字体大小 h2 {
   font-size: 18px;
 }
-.post .post-content h3 {
+#文章字体大小 h3 {
+  font-size: 18px;
+}
+#文章字体大小 h4 {
+  font-size: 17px;
+}
+#文章字体大小 h5 {
   font-size: 16px;
 }
-.post .post-content h4 {
-  font-size: 14px;
-}
-.post .post-content h5 {
-  font-size: 13px;
-}
-.post .post-content h6 {
+#文章字体大小 h6 {
   font-size: 12px;
 }
-.post .post-content p {
+#文章字体大小 p {
   margin: 0 0 1.234em;
 }
-.post .post-content p code {
+#文章字体大小 p code {
   margin: 0 5px;
   padding: 0 5px;
   font-family: Source Code Pro, Monaco, Menlo, Consolas, monospace;
@@ -677,15 +679,15 @@ body {
   font-size: 0.95em;
   word-break: break-all;
 }
-.post .post-content p a {
+#文章字体大小 p a {
   color: #40759b;
   padding-bottom: 2px;
   word-break: break-all;
 }
-.post .post-content p a:hover {
+#文章字体大小 p a:hover {
   text-decoration: underline;
 }
-.post .post-content p .caption {
+#文章字体大小 p .caption {
   color: #40759b;
   display: block;
   font-size: 0.9em;
@@ -693,11 +695,11 @@ body {
   position: relative;
   text-align: center;
 }
-.post .post-content blockquote p,
-.post .post-content .stressed p {
+#文章字体大小 blockquote p,
+#文章字体大小 .stressed p {
   margin: 0;
 }
-.post .post-content img {
+#文章字体大小 img {
   max-width: 100%;
   padding: 0.5em 0;
   margin: auto;
@@ -705,28 +707,28 @@ body {
   cursor: -webkit-zoom-in;
   cursor: zoom-in;
 }
-.post .post-content hr {
+#文章字体大小 hr {
   margin: 2.4em auto;
   border: none;
   border-top: 1px solid #d8e2eb;
   position: relative;
 }
-.post .post-content ul,
-.post .post-content ol {
+#文章字体大小 ul,
+#文章字体大小 ol {
   margin: 0;
   padding: 0 0 0 2em;
   margin: 0 0 1.234em;
 }
-.post .post-content ul li ul,
-.post .post-content ol li ul,
-.post .post-content ul li ol,
-.post .post-content ol li ol,
-.post .post-content ul li p,
-.post .post-content ol li p {
+#文章字体大小 ul li ul,
+#文章字体大小 ol li ul,
+#文章字体大小 ul li ol,
+#文章字体大小 ol li ol,
+#文章字体大小 ul li p,
+#文章字体大小 ol li p {
   margin: 0;
 }
-.post .post-content ul code,
-.post .post-content ol code {
+#文章字体大小 ul code,
+#文章字体大小 ol code {
   margin: 0 5px;
   padding: 0 5px;
   font-family: Source Code Pro, Monaco, Menlo, Consolas, monospace;
@@ -735,17 +737,17 @@ body {
   font-size: 0.95em;
   word-break: break-all;
 }
-.post .post-content ul a,
-.post .post-content ol a {
+#文章字体大小 ul a,
+#文章字体大小 ol a {
   color: #40759b;
   padding-bottom: 2px;
   word-break: break-all;
 }
-.post .post-content ul a:hover,
-.post .post-content ol a:hover {
+#文章字体大小 ul a:hover,
+#文章字体大小 ol a:hover {
   text-decoration: underline;
 }
-.post .post-copyright blockquote {
+.post-copyright blockquote {
   margin: 3em 0 1rem;
   padding: 18px 15px;
   border: 1px solid #40759b;
@@ -755,19 +757,19 @@ body {
   word-wrap: break-word;
   word-break: break-all;
 }
-.post .tags {
+.tags {
   padding-bottom: 0.5em;
   text-align: right;
 }
-.post .tags a {
+.tags a {
   margin-right: 0.5em;
 }
-.post .tags a:before {
+.tags a:before {
   font-family: "iconfont" !important;
   content: "\e008";
   padding-right: 0.3em;
 }
-.post .post-share::after {
+.post-share::after {
   content: ' ';
   display: block;
   clear: both;
@@ -1346,7 +1348,7 @@ table td {
   }
   .archive-wrap .tite {
     padding: 0 15px;
-    font-size: 14px;
+    font-size: 16px;
   }
   .archive-wrap .date {
     left: -62px;
