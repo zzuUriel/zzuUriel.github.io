@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>https://zzuuriel.github.io/article/60.CentOS7%E5%AE%89%E8%A3%85%E5%8D%95%E6%9C%BA%E7%89%88Kudu/</loc>
+        <lastmod>2020-05-19T06:10:14.089Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://zzuuriel.github.io/article/Scala%E5%9F%BA%E7%A1%8001/</loc>
         <lastmod>2020-05-18T06:28:58.751Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -81,14 +89,6 @@
     <url>
         <loc>https://zzuuriel.github.io/article/3.Hadoop%E6%9E%B6%E6%9E%84%E8%AF%A6%E8%A7%A3/</loc>
         <lastmod>2020-03-08T02:15:31.303Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://zzuuriel.github.io/article/hexo-theme-jepson/</loc>
-        <lastmod>2020-03-07T00:49:27.096Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

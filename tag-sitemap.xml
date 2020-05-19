@@ -2,13 +2,6 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     <url>
-        <loc>https://zzuuriel.github.io/tags/Hexo/</loc>
-        <lastmod>2020-03-07T00:49:27.096Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://zzuuriel.github.io/tags/hadoop/</loc>
         <lastmod>2020-03-08T02:15:31.303Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -25,6 +18,13 @@
     <url>
         <loc>https://zzuuriel.github.io/tags/scala/</loc>
         <lastmod>2020-05-18T06:28:58.751Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://zzuuriel.github.io/tags/kudu/</loc>
+        <lastmod>2020-05-19T06:10:14.089Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
