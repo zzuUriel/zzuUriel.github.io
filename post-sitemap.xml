@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>https://zzuuriel.github.io/article/Scala%E5%9F%BA%E7%A1%8002/</loc>
+        <lastmod>2020-05-22T10:12:53.747Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://zzuuriel.github.io/article/60.%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Spark%E7%AE%97%E5%AD%90aggregate/</loc>
         <lastmod>2020-05-19T15:16:21.730Z</lastmod>
         <changefreq>weekly</changefreq>

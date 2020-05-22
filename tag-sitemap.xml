@@ -9,13 +9,6 @@
     </url>
 
     <url>
-        <loc>https://zzuuriel.github.io/tags/scala/</loc>
-        <lastmod>2020-05-18T06:28:58.751Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://zzuuriel.github.io/tags/kudu/</loc>
         <lastmod>2020-05-19T10:12:54.675Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -25,6 +18,13 @@
     <url>
         <loc>https://zzuuriel.github.io/tags/spark/</loc>
         <lastmod>2020-05-19T15:16:21.730Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://zzuuriel.github.io/tags/scala/</loc>
+        <lastmod>2020-05-22T10:12:53.747Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
