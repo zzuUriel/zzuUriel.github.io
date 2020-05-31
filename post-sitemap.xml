@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>https://zzuuriel.github.io/article/HBase%E6%9E%B6%E6%9E%84%E5%92%8C%E8%AF%BB%E5%86%99%E6%B5%81%E7%A8%8B/</loc>
+        <lastmod>2020-05-31T14:18:07.538Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://zzuuriel.github.io/article/HBase%E7%9A%84Rowkey%E8%AE%BE%E8%AE%A1/</loc>
         <lastmod>2020-05-29T15:00:54.687Z</lastmod>
         <changefreq>weekly</changefreq>
