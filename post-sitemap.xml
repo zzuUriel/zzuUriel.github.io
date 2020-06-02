@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>https://zzuuriel.github.io/article/Flink%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%A6%E5%8F%91%E5%99%A8/</loc>
+        <lastmod>2020-06-02T09:07:45.919Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://zzuuriel.github.io/article/HBase%E6%9E%B6%E6%9E%84%E5%92%8C%E8%AF%BB%E5%86%99%E6%B5%81%E7%A8%8B/</loc>
         <lastmod>2020-05-31T14:23:04.330Z</lastmod>
         <changefreq>weekly</changefreq>
