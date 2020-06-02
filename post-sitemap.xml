@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>https://zzuuriel.github.io/article/Flink%E4%B9%8BWatermark%E7%90%86%E8%A7%A3/</loc>
+        <lastmod>2020-06-02T14:53:16.290Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://zzuuriel.github.io/article/Flink%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%A6%E5%8F%91%E5%99%A8/</loc>
         <lastmod>2020-06-02T09:07:45.919Z</lastmod>
         <changefreq>weekly</changefreq>
