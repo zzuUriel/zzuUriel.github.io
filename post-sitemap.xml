@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>https://zzuuriel.github.io/article/Spark%20Core%E5%9F%BA%E7%A1%80-%E5%B8%B8%E7%94%A8%E7%AE%97%E5%AD%90/</loc>
+        <lastmod>2020-06-04T08:59:52.576Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://zzuuriel.github.io/article/Flink%E4%B9%8BWatermark%E7%90%86%E8%A7%A3/</loc>
         <lastmod>2020-06-02T14:53:16.290Z</lastmod>
         <changefreq>weekly</changefreq>
