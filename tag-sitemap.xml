@@ -51,8 +51,15 @@
     </url>
 
     <url>
+        <loc>https://zzuuriel.github.io/tags/Linux/</loc>
+        <lastmod>2020-06-06T03:47:56.753Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://zzuuriel.github.io/tags/Shell/</loc>
-        <lastmod>2020-06-05T06:43:25.499Z</lastmod>
+        <lastmod>2020-06-06T04:50:15.844Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
