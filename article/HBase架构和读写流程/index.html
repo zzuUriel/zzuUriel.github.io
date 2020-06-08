@@ -137,7 +137,7 @@ flush命令，可以封装脚本。</p>
 </ul>
 <p>总结：<br>
 在生产上，唯独触发rs级别的限制导致flush,是属于灾难级别的，会阻塞所有落在该rs节点的读写请求，直到总的memstore大小降到低水位线，阻塞时间较长；其他的级别限制，只会阻塞对应的region的读写请求，阻塞时间较短。</p>
-<h5 id></h5>
+<h5 id=""></h5>
 <h4 id="读流程">读流程</h4>
 <p>HBase读流程图如下：<br>
 <img src="/img/hbase/HBase%E8%AF%BB%E6%B5%81%E7%A8%8B%E4%B8%89%E4%B8%AA%E9%98%B6%E6%AE%B5.png" alt="HBase读流程图"></p>

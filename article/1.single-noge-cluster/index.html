@@ -59,9 +59,9 @@ For example on Ubuntu Linux:<br>
 <p>要获得Hadoop发行版，请从Apache下载镜像下载一个最新的稳定版本</p>
 <h4 id="prepare-to-start-the-hadoop-cluster">Prepare to Start the Hadoop Cluster</h4>
 <p>Unpack the downloaded Hadoop distribution. In the distribution, edit the file etc/hadoop/hadoop-env.sh to define some parameters as follows:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">  　　# set to the root of your Java installation</span><br><span class="line"> 　　 export JAVA_HOME&#x3D;&#x2F;usr&#x2F;java&#x2F;latest</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">  　　# set to the root of your Java installation</span><br><span class="line"> 　　 export JAVA_HOME=/usr/java/latest</span><br></pre></td></tr></table></figure>
 <p>Try the following command:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　 $ bin&#x2F;hadoop</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　 $ bin/hadoop</span><br></pre></td></tr></table></figure>
 <p>This will display the usage documentation for the hadoop script.<br>
 Now you are ready to start your Hadoop cluster in one of the three supported modes:</p>
 <ul>
@@ -70,9 +70,9 @@ Now you are ready to start your Hadoop cluster in one of the three supported mod
 <li><a href="https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html#Fully-Distributed_Operation" target="_blank" rel="noopener">Fully-Distributed Mode</a></li>
 </ul>
 <p>解压缩下载的Hadoop发行版。在发行版中，编辑文件etc/hadoop/hadoop-env.sh以定义以下一些参数：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">　　# set to the root of your Java installation</span><br><span class="line">　 　 export JAVA_HOME&#x3D;&#x2F;usr&#x2F;java&#x2F;latest</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">　　# set to the root of your Java installation</span><br><span class="line">　 　 export JAVA_HOME=/usr/java/latest</span><br></pre></td></tr></table></figure>
 <p>尝试以下命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin&#x2F;hadoop</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin/hadoop</span><br></pre></td></tr></table></figure>
 <p>这个会显示hadoop脚本的使用文档</p>
 <p>现在，您已经准备好在三种支持的模式之一中启动Hadoop集群<br>
 　 ▪ 单机模式：默认情况下运行在一个单独机器上的独立Java进程，主要用于调试环境<br>
@@ -81,10 +81,10 @@ Now you are ready to start your Hadoop cluster in one of the three supported mod
 <h4 id="standalone-operation">Standalone Operation</h4>
 <p>By default, Hadoop is configured to run in a non-distributed mode, as a single Java process. This is useful for debugging.</p>
 <p>The following example copies the unpacked conf directory to use as input and then finds and displays every match of the given regular expression. Output is written to the given output directory.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">　　$ mkdir input</span><br><span class="line">　　$ cp etc&#x2F;hadoop&#x2F;*.xml input</span><br><span class="line">　　$ bin&#x2F;hadoop jar share&#x2F;hadoop&#x2F;mapreduce&#x2F;hadoop-mapreduce-examples-3.2.1.jar grep input output &#39;dfs[a-z.]+&#39;</span><br><span class="line">　　$ cat output&#x2F;*</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">　　$ mkdir input</span><br><span class="line">　　$ cp etc/hadoop/*.xml input</span><br><span class="line">　　$ bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.1.jar grep input output &apos;dfs[a-z.]+&apos;</span><br><span class="line">　　$ cat output/*</span><br></pre></td></tr></table></figure>
 <p>默认情况下，hadoop 被配置为以非分布式模式(作为单个 java 进程)运行。 这对调试很有用。<br>
 下面的示例复制未打包的conf目录作为输入，然后查找并显示给定正则表达式的每个匹配。输出被写入给定的输出目录。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">　　$ mkdir input</span><br><span class="line">　　$ cp etc&#x2F;hadoop&#x2F;*.xml input</span><br><span class="line">　　$ bin&#x2F;hadoop jar share&#x2F;hadoop&#x2F;mapreduce&#x2F;hadoop-mapreduce-examples-3.2.1.jar grep input output &#39;dfs[a-z.]+&#39;</span><br><span class="line">　　$ cat output&#x2F;*</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">　　$ mkdir input</span><br><span class="line">　　$ cp etc/hadoop/*.xml input</span><br><span class="line">　　$ bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.1.jar grep input output &apos;dfs[a-z.]+&apos;</span><br><span class="line">　　$ cat output/*</span><br></pre></td></tr></table></figure>
 <h4 id="pseudo-distributed-operation">Pseudo-Distributed Operation</h4>
 <p>Hadoop can also be run on a single-node in a pseudo-distributed mode where each Hadoop daemon runs in a separate Java process.</p>
 <p>Hadoop还可以在一个伪分布式模式的单个节点上运行，其中每个Hadoop守护进程在单独的Java进程中运行。</p>
@@ -92,9 +92,9 @@ Now you are ready to start your Hadoop cluster in one of the three supported mod
 <p>Use the following:<br>
 使用以下方法：<br>
 etc/hadoop/core-site.xml:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;fs.defaultFS&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;hdfs:&#x2F;&#x2F;localhost:9000&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">&lt;&#x2F;configuration&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;fs.defaultFS&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;hdfs://localhost:9000&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
 <p>etc/hadoop/hdfs-site.xml:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;dfs.replication&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;1&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">&lt;&#x2F;configuration&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;dfs.replication&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;1&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
 <p>常用配置项说明：<br>
 　　▪ fs.defaultFS这是默认的HDFS路径。当有多个HDFS集群同时工作时，用户在这里指定默认HDFS集群，该值来自于hdfs-site.xml中的配置。<br>
 　　▪ fs.default.name这是一个描述集群中NameNode结点的URI(包括协议、主机名称、端口号)，集群里面的每一台机器都需要知道NameNode的地址。DataNode结点会先在NameNode上注册，这样它们的数据才可以被使用。独立的客户端程序通过这个URI跟DataNode交互，以取得文件的块列表。<br>
@@ -106,7 +106,7 @@ etc/hadoop/core-site.xml:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ ssh localhost</span><br></pre></td></tr></table></figure>
 <p>If you cannot ssh to localhost without a passphrase, execute the following commands:<br>
 如果没有密码无法ssh到localhost，请执行以下命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">　　$ ssh-keygen -t rsa -P &#39;&#39; -f ~&#x2F;.ssh&#x2F;id_rsa</span><br><span class="line">　　$ cat ~&#x2F;.ssh&#x2F;id_rsa.pub &gt;&gt; ~&#x2F;.ssh&#x2F;authorized_keys</span><br><span class="line">　　$ chmod 0600 ~&#x2F;.ssh&#x2F;authorized_keys</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">　　$ ssh-keygen -t rsa -P &apos;&apos; -f ~/.ssh/id_rsa</span><br><span class="line">　　$ cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</span><br><span class="line">　　$ chmod 0600 ~/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
 <h5 id="execution">Execution</h5>
 <p>The following instructions are to run a MapReduce job locally. If you want to execute a job on YARN, see <a href="http://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html#YARN_on_Single_Node" target="_blank" rel="noopener">YARN on Single Node</a>.</p>
 <p>以下说明将在本地运行MapReduce作业。如果您想在YARN上执行作业，请参阅YARN on Single Node。</p>
@@ -115,12 +115,12 @@ etc/hadoop/core-site.xml:</p>
 <li>Format the filesystem:<br>
 格式化文件系统:</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin&#x2F;hdfs namenode -format</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin/hdfs namenode -format</span><br></pre></td></tr></table></figure>
 <ol start="2">
 <li>Start NameNode daemon and DataNode daemon:<br>
 启动NameNode和DataNode的守护进程:</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ sbin&#x2F;start-dfs.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ sbin/start-dfs.sh</span><br></pre></td></tr></table></figure>
 <p>The hadoop daemon log output is written to the $HADOOP_LOG_DIR directory (defaults to $HADOOP_HOME/logs).<br>
 	   hadoop守护进程日志输出被写入$HADOOP_LOG_DIR目录（默认为$HADOOP_HOME/logs）。</p>
 <ol start="3">
@@ -134,31 +134,31 @@ etc/hadoop/core-site.xml:</p>
 创建执行MapReduce作业所需的HDFS目录：</p>
 </li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin&#x2F;hdfs dfs -mkdir &#x2F;user</span><br><span class="line">　　$ bin&#x2F;hdfs dfs -mkdir &#x2F;user&#x2F;&lt;username&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin/hdfs dfs -mkdir /user</span><br><span class="line">　　$ bin/hdfs dfs -mkdir /user/&lt;username&gt;</span><br></pre></td></tr></table></figure>
 <ol start="5">
 <li>Copy the input files into the distributed filesystem:<br>
 将输入文件复制到分布式文件系统中：</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin&#x2F;hdfs dfs -mkdir input</span><br><span class="line">　　$ bin&#x2F;hdfs dfs -put etc&#x2F;hadoop&#x2F;*.xml input</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin/hdfs dfs -mkdir input</span><br><span class="line">　　$ bin/hdfs dfs -put etc/hadoop/*.xml input</span><br></pre></td></tr></table></figure>
 <ol start="6">
 <li>Run some of the examples provided:<br>
 运行所提供的一些示例：</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin&#x2F;hadoop jar share&#x2F;hadoop&#x2F;mapreduce&#x2F;hadoop-mapreduce-examples-3.2.1.jar grep input output &#39;dfs[a-z.]+&#39;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.1.jar grep input output &apos;dfs[a-z.]+&apos;</span><br></pre></td></tr></table></figure>
 <ol start="7">
 <li>Examine the output files: Copy the output files from the distributed filesystem to the local filesystem and examine them:<br>
 检查输出文件：将输出文件从分布式文件系统复制到本地文件系统，并检查它们：</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin&#x2F;hdfs dfs -get output output</span><br><span class="line">　　$ cat output&#x2F;*</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin/hdfs dfs -get output output</span><br><span class="line">　　$ cat output/*</span><br></pre></td></tr></table></figure>
 <p>or<br>
 　　View the output files on the distributed filesystem:<br>
 　　或者直接在分布式文件系统中查看：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin&#x2F;hdfs dfs -cat output&#x2F;*</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin/hdfs dfs -cat output/*</span><br></pre></td></tr></table></figure>
 <ol start="8">
 <li>When you’re done, stop the daemons with:<br>
 完成后，使用以下命令停止守护进程：</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ sbin&#x2F;stop-dfs.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ sbin/stop-dfs.sh</span><br></pre></td></tr></table></figure>
 <h4 id="yarn-on-a-single-node">YARN on a Single Node</h4>
 <p>You can run a MapReduce job on YARN in a pseudo-distributed mode by setting a few parameters and running ResourceManager daemon and NodeManager daemon in addition.<br>
 The following instructions assume that 1. ~ 4. steps of the above instructions are already executed.</p>
@@ -168,14 +168,14 @@ The following instructions assume that 1. ~ 4. steps of the above instructions a
 <li>Configure parameters as follows:<br>
 etc/hadoop/mapred-site.xml:</li>
 </ol>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">  &lt;configuration&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;mapreduce.framework.name&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;yarn&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">&lt;&#x2F;configuration&gt;</span><br><span class="line">更多说明请参考mapred-default.xml，包含配置文件所有配置项的说明和默认值</span><br></pre></td></tr></table></figure>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">  &lt;configuration&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;mapreduce.framework.name&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;yarn&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br><span class="line">更多说明请参考mapred-default.xml，包含配置文件所有配置项的说明和默认值</span><br></pre></td></tr></table></figure>
 <p>etc/hadoop/yarn-site.xml:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;yarn.nodemanager.aux-services&lt;&#x2F;name&gt;</span><br><span class="line">        &lt;value&gt;mapreduce_shuffle&lt;&#x2F;value&gt;</span><br><span class="line">    &lt;&#x2F;property&gt;</span><br><span class="line">&lt;&#x2F;configuration&gt;</span><br><span class="line">注：yarn.nodemanager.aux-services通过该配置，用户可以自定义一些服务</span><br><span class="line">更多说明请参考yarn-default.xml，包含配置文件所有配置项的说明和默认值</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;yarn.nodemanager.aux-services&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;mapreduce_shuffle&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br><span class="line">注：yarn.nodemanager.aux-services通过该配置，用户可以自定义一些服务</span><br><span class="line">更多说明请参考yarn-default.xml，包含配置文件所有配置项的说明和默认值</span><br></pre></td></tr></table></figure>
 <ol start="2">
 <li>Start ResourceManager daemon and NodeManager daemon:<br>
 启动ResourceManager守护进程和NodeManager守护进程：</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ sbin&#x2F;start-yarn.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ sbin/start-yarn.sh</span><br></pre></td></tr></table></figure>
 <ol start="3">
 <li>
 <p>Browse the web interface for the ResourceManager; by default it is available at:<br>
@@ -190,7 +190,7 @@ ResourceManager - <a href="http://localhost:8088/" target="_blank" rel="noopener
 完成后，使用以下命令停止守护进程：</p>
 </li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ sbin&#x2F;stop-yarn.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ sbin/stop-yarn.sh</span><br></pre></td></tr></table></figure>
 <h4 id="fully-distributed-operation">Fully-Distributed Operation</h4>
 <p>For information on setting up fully-distributed, non-trivial clusters see <a href="https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/ClusterSetup.html" target="_blank" rel="noopener">Cluster Setup</a>.</p>
 <p>有关全分布集群设置的信息，请参见<a href="https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/ClusterSetup.html" target="_blank" rel="noopener">Cluster Setup</a>.</p>
