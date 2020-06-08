@@ -2,34 +2,6 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     <url>
-        <loc>https://zzuuriel.github.io/tags/hadoop/</loc>
-        <lastmod>2020-03-08T02:15:31.303Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://zzuuriel.github.io/tags/kudu/</loc>
-        <lastmod>2020-05-24T18:20:56.211Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://zzuuriel.github.io/tags/flume/</loc>
-        <lastmod>2020-05-27T13:11:23.451Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
-        <loc>https://zzuuriel.github.io/tags/scala/</loc>
-        <lastmod>2020-05-27T15:26:57.122Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://zzuuriel.github.io/tags/HBase/</loc>
         <lastmod>2020-05-31T14:23:04.330Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -58,8 +30,36 @@
     </url>
 
     <url>
-        <loc>https://zzuuriel.github.io/tags/spark/</loc>
-        <lastmod>2020-06-08T13:05:00.868Z</lastmod>
+        <loc>https://zzuuriel.github.io/tags/Hadoop/</loc>
+        <lastmod>2020-06-08T13:13:52.999Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://zzuuriel.github.io/tags/Kudu/</loc>
+        <lastmod>2020-06-08T13:15:29.167Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://zzuuriel.github.io/tags/Scala/</loc>
+        <lastmod>2020-06-08T13:17:10.430Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://zzuuriel.github.io/tags/Spark/</loc>
+        <lastmod>2020-06-08T13:18:08.791Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://zzuuriel.github.io/tags/Flume/</loc>
+        <lastmod>2020-06-08T13:18:21.079Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
