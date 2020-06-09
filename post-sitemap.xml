@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>https://zzuuriel.github.io/article/Spark%20Core%E5%9F%BA%E7%A1%80%E4%B9%8BSpark%E7%9B%91%E6%8E%A7/</loc>
+        <lastmod>2020-06-09T16:15:45.628Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://zzuuriel.github.io/article/%E7%AA%84%E4%BE%9D%E8%B5%96%E5%92%8C%E5%AE%BD%E4%BE%9D%E8%B5%96&Spark%E4%BB%BB%E5%8A%A1%E4%B8%AD%E7%9A%84Stage(%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB)/</loc>
         <lastmod>2020-06-09T09:05:51.685Z</lastmod>
         <changefreq>weekly</changefreq>
