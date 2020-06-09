@@ -1,0 +1,197 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content=""><link rel="stylesheet" type="text/css" href="//fonts.loli.net/css?family=Source+Code+Pro"><link rel="stylesheet" type="text/css" href="/css/style-dark.css?v=2.0.5"><link rel="stylesheet" type="text/css" href="/css/highlight-dark.css?v=2.0.5"><link rel="Shortcut Icon" href="/favicon.ico"><link rel="bookmark" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><title> hadoop官网翻译:Setting up a Single Node Cluster | 暗也橙子Blog</title></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden"> hadoop官网翻译:Setting up a Single Node Cluster</h1><a id="logo" href="/.">暗也橙子Blog</a><p class="description"></p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a></div><div id="search-form"><div id="result-mask" class="hide"></div><label><input id="search-key" type="text" autocomplete="off" placeholder="搜索"></label><div id="result-wrap" class="hide"><div id="search-result"></div></div><div class="hide"><template id="search-tpl"><div class="item"><a href="/{path}" title="{title}"><div class="title">{title}</div><div class="time">{date}</div><div class="tags">{tags}</div></a></div></template></div></div></div><div id="layout" class="layout-g"><div class="layout-l"><div class="content_container"><div class="post"><h1 class="post-title"> hadoop官网翻译:Setting up a Single Node Cluster</h1><div class="post-meta"><a href="/article/1.single-noge-cluster/#comments" class="comment-count"></a><p><span class="date">Dec 11, 2018</span><span><i id="busuanzi_container_page_pv"><i id="busuanzi_value_page_pv"></i><i>点击</i></i></span></p></div><div class="post-content"><h3 id="hadoop官网翻译setting-up-a-single-node-cluster">hadoop官网翻译:Setting up a Single Node Cluster.</h3>
+<hr>
+<h4 id="hadoop-setting-up-a-single-node-cluster">Hadoop: Setting up a Single Node Cluster.</h4>
+<p>设置单节点集群。</p>
+<p>▪ <a href="http://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html#Purpose" target="_blank" rel="noopener">Purpose</a><br>
+▪ <a href="http://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html#Prerequisites" target="_blank" rel="noopener">Prerequisites</a><br>
+　　▪ <a href="https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html#Supported_Platforms" target="_blank" rel="noopener">Supported Platforms</a><br>
+　　▪ <a href="https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html#Required_Software" target="_blank" rel="noopener">Required Software</a><br>
+　　▪ <a href="https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html#Installing_Software" target="_blank" rel="noopener">Installing Software</a><br>
+▪ <a href="https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html#Installing_Software" target="_blank" rel="noopener">Download</a><br>
+▪ <a href="http://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html#Prepare_to_Start_the_Hadoop_Cluster" target="_blank" rel="noopener">Prepare to Start the Hadoop Cluster</a><br>
+▪ <a href="https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html#Standalone_Operation" target="_blank" rel="noopener">Standalone Operation</a><br>
+▪ <a href="https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html#Pseudo-Distributed_Operation" target="_blank" rel="noopener">Pseudo-Distributed Operation</a><br>
+　　▪ <a href="https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html#Configuration" target="_blank" rel="noopener">Configuration</a><br>
+　　▪ <a href="https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html#Setup_passphraseless_ssh" target="_blank" rel="noopener">Setup passphraseless ssh</a><br>
+　　▪ <a href="https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html#Execution" target="_blank" rel="noopener">Execution</a><br>
+　　▪ <a href="https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html#YARN_on_a_Single_Node" target="_blank" rel="noopener">YARN on a Single Node</a><br>
+▪ <a href="https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html#Fully-Distributed_Operation" target="_blank" rel="noopener">Fully-Distributed Operation</a></p>
+<p>▪ 目的<br>
+先决条件<br>
+　　▪ 支持平台<br>
+　　▪ 所需软件<br>
+　　▪ 安装软件<br>
+▪ 下载<br>
+▪ 准备开始安装Hadoop集群<br>
+▪ 独立操作<br>
+▪ 伪分布式操作<br>
+　　▪ 配置<br>
+　　▪ 设置无密码ssh<br>
+　　▪ 执行<br>
+　　▪ YARN在单节点上运行<br>
+▪ 全分布式操作</p>
+<h4 id="purpose">Purpose</h4>
+<p>This document describes how to set up and configure a single-node Hadoop installation so that you can quickly perform simple operations using Hadoop MapReduce and the Hadoop Distributed File System (HDFS)</p>
+<p>本文档描述了如何去建立并且配置一个单节点hadoop的安装，这样你就可以使用MR和HDFS快速执行简单的操作</p>
+<h4 id="prerequisites">Prerequisites</h4>
+<h5 id="supported-platforms">Supported Platforms</h5>
+<ul>
+<li>GNU/Linux is supported as a development and production platform. Hadoop has been demonstrated on GNU/Linux clusters with 2000 nodes.</li>
+<li>Windows is also a supported platform but the followings steps are for Linux only. To set up Hadoop on Windows, see <a href="https://cwiki.apache.org/confluence/display/HADOOP2/Hadoop2OnWindows" target="_blank" rel="noopener">wiki page</a>．</li>
+</ul>
+<p>▪ 支持GNU/Linux作为开发和生产平台。Hadoop已经在具有2000个节点的GNU/Linux集群上进行了演示。<br>
+▪ Windows也是一个受支持的平台，但是下面的步骤只适用于Linux。要在Windows上配置Hadoop，请参阅wiki页面。</p>
+<h5 id="required-software">Required Software</h5>
+<p>Required software for Linux include:<br>
+　　1.Java™ must be installed. Recommended Java versions are described at HadoopJavaVersions.<br>
+　　2.ssh must be installed and sshd must be running to use the Hadoop scripts that manage remote Hadoop daemons if the optional start and stop scripts are to be used. Additionally, it is recommmended that pdsh also be installed for better ssh resource management.</p>
+<p>linux所需的软件<br>
+　　1.必须安装java，在HadoopJavaVersions中查看适合的java版本<br>
+　　2.如果要使用可选的启动和停止脚本，则必须安装 ssh 并运行 sshd 以使用管理远程 hadoop 守护进程的 hadoop 脚本。 此外，还建议安装 pdsh，以便更好地管理 ssh 资源。</p>
+<h5 id="installing-software">Installing Software</h5>
+<p>If your cluster doesn’t have the requisite software you will need to install it.<br>
+For example on Ubuntu Linux:<br>
+如果你的集群没有安装所需的软件，你需要安装它<br>
+例如在 Ubuntu Linux:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">  　　 $ sudo apt-get install ssh</span><br><span class="line">  　　 $ sudo apt-get install pdsh</span><br></pre></td></tr></table></figure>
+<h4 id="download">Download</h4>
+<p>To get a Hadoop distribution, download a recent stable release from one of the <a href="http://www.apache.org/dyn/closer.cgi/hadoop/common/" target="_blank" rel="noopener">Apache Download Mirrors</a>.</p>
+<p>要获得Hadoop发行版，请从Apache下载镜像下载一个最新的稳定版本</p>
+<h4 id="prepare-to-start-the-hadoop-cluster">Prepare to Start the Hadoop Cluster</h4>
+<p>Unpack the downloaded Hadoop distribution. In the distribution, edit the file etc/hadoop/hadoop-env.sh to define some parameters as follows:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">  　　# set to the root of your Java installation</span><br><span class="line"> 　　 export JAVA_HOME=/usr/java/latest</span><br></pre></td></tr></table></figure>
+<p>Try the following command:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　 $ bin/hadoop</span><br></pre></td></tr></table></figure>
+<p>This will display the usage documentation for the hadoop script.<br>
+Now you are ready to start your Hadoop cluster in one of the three supported modes:</p>
+<ul>
+<li><a href="https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html#Standalone_Operation" target="_blank" rel="noopener">Local (Standalone) Mode</a></li>
+<li><a href="https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html#Pseudo-Distributed_Operation" target="_blank" rel="noopener">Pseudo-Distributed Mode</a></li>
+<li><a href="https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html#Fully-Distributed_Operation" target="_blank" rel="noopener">Fully-Distributed Mode</a></li>
+</ul>
+<p>解压缩下载的Hadoop发行版。在发行版中，编辑文件etc/hadoop/hadoop-env.sh以定义以下一些参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">　　# set to the root of your Java installation</span><br><span class="line">　 　 export JAVA_HOME=/usr/java/latest</span><br></pre></td></tr></table></figure>
+<p>尝试以下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin/hadoop</span><br></pre></td></tr></table></figure>
+<p>这个会显示hadoop脚本的使用文档</p>
+<p>现在，您已经准备好在三种支持的模式之一中启动Hadoop集群<br>
+　 ▪ 单机模式：默认情况下运行在一个单独机器上的独立Java进程，主要用于调试环境<br>
+　 ▪ 伪分布模式：在单个机器上模拟成分布式多节点环境，每一个Hadoop守护进程都作为一个独立的Java进程运行<br>
+　 ▪ 完全分布式模式：真实的生产环境，搭建在完全分布式的集群环境</p>
+<h4 id="standalone-operation">Standalone Operation</h4>
+<p>By default, Hadoop is configured to run in a non-distributed mode, as a single Java process. This is useful for debugging.</p>
+<p>The following example copies the unpacked conf directory to use as input and then finds and displays every match of the given regular expression. Output is written to the given output directory.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">　　$ mkdir input</span><br><span class="line">　　$ cp etc/hadoop/*.xml input</span><br><span class="line">　　$ bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.1.jar grep input output &apos;dfs[a-z.]+&apos;</span><br><span class="line">　　$ cat output/*</span><br></pre></td></tr></table></figure>
+<p>默认情况下，hadoop 被配置为以非分布式模式(作为单个 java 进程)运行。 这对调试很有用。<br>
+下面的示例复制未打包的conf目录作为输入，然后查找并显示给定正则表达式的每个匹配。输出被写入给定的输出目录。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">　　$ mkdir input</span><br><span class="line">　　$ cp etc/hadoop/*.xml input</span><br><span class="line">　　$ bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.1.jar grep input output &apos;dfs[a-z.]+&apos;</span><br><span class="line">　　$ cat output/*</span><br></pre></td></tr></table></figure>
+<h4 id="pseudo-distributed-operation">Pseudo-Distributed Operation</h4>
+<p>Hadoop can also be run on a single-node in a pseudo-distributed mode where each Hadoop daemon runs in a separate Java process.</p>
+<p>Hadoop还可以在一个伪分布式模式的单个节点上运行，其中每个Hadoop守护进程在单独的Java进程中运行。</p>
+<h5 id="configuration">Configuration</h5>
+<p>Use the following:<br>
+使用以下方法：<br>
+etc/hadoop/core-site.xml:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;fs.defaultFS&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;hdfs://localhost:9000&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+<p>etc/hadoop/hdfs-site.xml:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;dfs.replication&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;1&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+<p>常用配置项说明：<br>
+　　▪ fs.defaultFS这是默认的HDFS路径。当有多个HDFS集群同时工作时，用户在这里指定默认HDFS集群，该值来自于hdfs-site.xml中的配置。<br>
+　　▪ fs.default.name这是一个描述集群中NameNode结点的URI(包括协议、主机名称、端口号)，集群里面的每一台机器都需要知道NameNode的地址。DataNode结点会先在NameNode上注册，这样它们的数据才可以被使用。独立的客户端程序通过这个URI跟DataNode交互，以取得文件的块列表。<br>
+　　▪ hadoop.tmp.dir 是hadoop文件系统依赖的基础配置，很多路径都依赖它。如果hdfs-site.xml中不配置namenode和datanode的存放位置，默认就放在/tmp/hadoop-${<a href="http://user.name" target="_blank" rel="noopener">user.name</a>}这个路径中。<br>
+更多说明请参考<a href="http://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/core-default.xml" target="_blank" rel="noopener">core-default.xml</a> ，包含配置文件所有配置项的说明和默认值。</p>
+<h5 id="setup-passphraseless-ssh">Setup passphraseless ssh</h5>
+<p>Now check that you can ssh to the localhost without a passphrase:<br>
+现在检查是否可以在没有密码的情况下ssh到本地主机：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ ssh localhost</span><br></pre></td></tr></table></figure>
+<p>If you cannot ssh to localhost without a passphrase, execute the following commands:<br>
+如果没有密码无法ssh到localhost，请执行以下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">　　$ ssh-keygen -t rsa -P &apos;&apos; -f ~/.ssh/id_rsa</span><br><span class="line">　　$ cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</span><br><span class="line">　　$ chmod 0600 ~/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
+<h5 id="execution">Execution</h5>
+<p>The following instructions are to run a MapReduce job locally. If you want to execute a job on YARN, see <a href="http://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/SingleCluster.html#YARN_on_Single_Node" target="_blank" rel="noopener">YARN on Single Node</a>.</p>
+<p>以下说明将在本地运行MapReduce作业。如果您想在YARN上执行作业，请参阅YARN on Single Node。</p>
+<p>在使用hadoop前，必须格式化一个全新的HDFS安装，通过创建存储目录和NameNode持久化数据结构的初始版本，格式化过程创建了一个空的文件系统。由于NameNode管理文件系统的元数据，而DataNode可以动态的加入或离开集群，因此这个格式化过程并不涉及DataNode。同理，用户也无需关注文件系统的规模。集群中DataNode的数量决定着文件系统的规模。DataNode可以在文件系统格式化之后的很长一段时间内按需增加。</p>
+<ol>
+<li>Format the filesystem:<br>
+格式化文件系统:</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin/hdfs namenode -format</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>Start NameNode daemon and DataNode daemon:<br>
+启动NameNode和DataNode的守护进程:</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ sbin/start-dfs.sh</span><br></pre></td></tr></table></figure>
+<p>The hadoop daemon log output is written to the $HADOOP_LOG_DIR directory (defaults to $HADOOP_HOME/logs).<br>
+	   hadoop守护进程日志输出被写入$HADOOP_LOG_DIR目录（默认为$HADOOP_HOME/logs）。</p>
+<ol start="3">
+<li>
+<p>Browse the web interface for the NameNode; by default it is available at:<br>
+▪  NameNode - <a href="http://localhost:9870/" target="_blank" rel="noopener">http://localhost:9870/</a><br>
+浏览用于NameNode的网络接口；默认情况下，可以在：NameNode -  <a href="http://localhost:9870/" target="_blank" rel="noopener">http://localhost:9870/</a></p>
+</li>
+<li>
+<p>Make the HDFS directories required to execute MapReduce jobs:<br>
+创建执行MapReduce作业所需的HDFS目录：</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin/hdfs dfs -mkdir /user</span><br><span class="line">　　$ bin/hdfs dfs -mkdir /user/&lt;username&gt;</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>Copy the input files into the distributed filesystem:<br>
+将输入文件复制到分布式文件系统中：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin/hdfs dfs -mkdir input</span><br><span class="line">　　$ bin/hdfs dfs -put etc/hadoop/*.xml input</span><br></pre></td></tr></table></figure>
+<ol start="6">
+<li>Run some of the examples provided:<br>
+运行所提供的一些示例：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.1.jar grep input output &apos;dfs[a-z.]+&apos;</span><br></pre></td></tr></table></figure>
+<ol start="7">
+<li>Examine the output files: Copy the output files from the distributed filesystem to the local filesystem and examine them:<br>
+检查输出文件：将输出文件从分布式文件系统复制到本地文件系统，并检查它们：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin/hdfs dfs -get output output</span><br><span class="line">　　$ cat output/*</span><br></pre></td></tr></table></figure>
+<p>or<br>
+　　View the output files on the distributed filesystem:<br>
+　　或者直接在分布式文件系统中查看：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ bin/hdfs dfs -cat output/*</span><br></pre></td></tr></table></figure>
+<ol start="8">
+<li>When you’re done, stop the daemons with:<br>
+完成后，使用以下命令停止守护进程：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ sbin/stop-dfs.sh</span><br></pre></td></tr></table></figure>
+<h4 id="yarn-on-a-single-node">YARN on a Single Node</h4>
+<p>You can run a MapReduce job on YARN in a pseudo-distributed mode by setting a few parameters and running ResourceManager daemon and NodeManager daemon in addition.<br>
+The following instructions assume that 1. ~ 4. steps of the above instructions are already executed.</p>
+<p>您可以通过设置一些参数并运行ResourceManager守护进程和NodeManager守护进程，在伪分布式模式下在YARN上运行MapReduce作业。<br>
+下面的指令假设已经执行上述指令1. ~ 4. 的步骤。</p>
+<ol>
+<li>Configure parameters as follows:<br>
+etc/hadoop/mapred-site.xml:</li>
+</ol>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">  &lt;configuration&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;mapreduce.framework.name&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;yarn&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br><span class="line">更多说明请参考mapred-default.xml，包含配置文件所有配置项的说明和默认值</span><br></pre></td></tr></table></figure>
+<p>etc/hadoop/yarn-site.xml:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">    &lt;property&gt;</span><br><span class="line">        &lt;name&gt;yarn.nodemanager.aux-services&lt;/name&gt;</span><br><span class="line">        &lt;value&gt;mapreduce_shuffle&lt;/value&gt;</span><br><span class="line">    &lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br><span class="line">注：yarn.nodemanager.aux-services通过该配置，用户可以自定义一些服务</span><br><span class="line">更多说明请参考yarn-default.xml，包含配置文件所有配置项的说明和默认值</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>Start ResourceManager daemon and NodeManager daemon:<br>
+启动ResourceManager守护进程和NodeManager守护进程：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ sbin/start-yarn.sh</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>
+<p>Browse the web interface for the ResourceManager; by default it is available at:<br>
+浏览ResourceManager的网页界面；默认情况下，可以在：<br>
+ResourceManager - <a href="http://localhost:8088/" target="_blank" rel="noopener">http://localhost:8088/</a></p>
+</li>
+<li>
+<p>Run a MapReduce job.</p>
+</li>
+<li>
+<p>When you’re done, stop the daemons with:<br>
+完成后，使用以下命令停止守护进程：</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">　　$ sbin/stop-yarn.sh</span><br></pre></td></tr></table></figure>
+<h4 id="fully-distributed-operation">Fully-Distributed Operation</h4>
+<p>For information on setting up fully-distributed, non-trivial clusters see <a href="https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/ClusterSetup.html" target="_blank" rel="noopener">Cluster Setup</a>.</p>
+<p>有关全分布集群设置的信息，请参见<a href="https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/ClusterSetup.html" target="_blank" rel="noopener">Cluster Setup</a>.</p>
+</div><div class="post-copyright"><blockquote><p>原文作者: 暗也橙子</p><p>原文链接: <a href="https://zzuuriel.github.io/article/1.single-noge-cluster/">https://zzuuriel.github.io/article/1.single-noge-cluster/</a></p><p>版权声明: 转载请注明出处(必须保留作者署名及链接)</p></blockquote></div><div class="tags"><a href="/tags/Hadoop/">Hadoop</a></div><div class="post-share"><div class="social-share"><span>分享到:</span></div></div><div class="post-nav"><a href="/article/3.Hadoop架构详解/" class="pre"> Hadoop架构详解 </a><a href="/article/Linux source命令、sh和.区别/" class="next">Linux source命令、sh和./区别</a></div><div id="comments"></div></div></div></div><div class="layout-r"><div id="sidebar"><div class="search-pla"></div><div id="toc" class="widget"><div class="widget-title"><i class="fa fa-fei">文章目录</i></div><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#hadoop官网翻译setting-up-a-single-node-cluster"><span class="toc-text">hadoop&#x5B98;&#x7F51;&#x7FFB;&#x8BD1;:Setting up a Single Node Cluster.</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#hadoop-setting-up-a-single-node-cluster"><span class="toc-text">Hadoop: Setting up a Single Node Cluster.</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#purpose"><span class="toc-text">Purpose</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#prerequisites"><span class="toc-text">Prerequisites</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#supported-platforms"><span class="toc-text">Supported Platforms</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#required-software"><span class="toc-text">Required Software</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#installing-software"><span class="toc-text">Installing Software</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#download"><span class="toc-text">Download</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#prepare-to-start-the-hadoop-cluster"><span class="toc-text">Prepare to Start the Hadoop Cluster</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#standalone-operation"><span class="toc-text">Standalone Operation</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#pseudo-distributed-operation"><span class="toc-text">Pseudo-Distributed Operation</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#configuration"><span class="toc-text">Configuration</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#setup-passphraseless-ssh"><span class="toc-text">Setup passphraseless ssh</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#execution"><span class="toc-text">Execution</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#yarn-on-a-single-node"><span class="toc-text">YARN on a Single Node</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#fully-distributed-operation"><span class="toc-text">Fully-Distributed Operation</span></a></li></ol></li></ol></div><div class="widget"><div class="widget-title"><i class="fa fa-xie"> 最新文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/article/修改Flume源码使taildir source支持递归（可配置）/">修改Flume源码使taildir source支持递归（可配置）</a></li><li class="post-list-item"><a class="post-list-link" href="/article/解决Spark on YARN时jar包乱飞的问题/">解决Spark on YARN时jar包乱飞的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/article/Flink之Watermark理解/">Flink之Watermark理解</a></li><li class="post-list-item"><a class="post-list-link" href="/article/2.spark-2.4.5-bin-2.6.0-cdh5.15.1.tgz/"> Spark-2.4.5源码编译</a></li><li class="post-list-item"><a class="post-list-link" href="/article/Flink自定义触发器/">Flink自定义触发器</a></li><li class="post-list-item"><a class="post-list-link" href="/article/60.深入理解Spark算子aggregate/">深入理解Spark算子aggregate</a></li><li class="post-list-item"><a class="post-list-link" href="/article/60.Kudu常用Api(java)/">Kudu常用Api(java) </a></li><li class="post-list-item"><a class="post-list-link" href="/article/60.CentOS7安装单机版Kudu/">CentOS7安装单机版Kudu </a></li><li class="post-list-item"><a class="post-list-link" href="/article/HBase架构和读写流程/">HBase架构和读写流程</a></li><li class="post-list-item"><a class="post-list-link" href="/article/HBase的Rowkey设计/">HBase的Rowkey设计</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-biao"> 标签</i></div><div class="tagcloud"><a href="/tags/Spark/" style="font-size: 15px;">Spark</a> <a href="/tags/Hadoop/" style="font-size: 15px;">Hadoop</a> <a href="/tags/Scala/" style="font-size: 15px;">Scala</a> <a href="/tags/Kudu/" style="font-size: 15px;">Kudu</a> <a href="/tags/Flink/" style="font-size: 15px;">Flink</a> <a href="/tags/HBase/" style="font-size: 15px;">HBase</a> <a href="/tags/Shell/" style="font-size: 15px;">Shell</a> <a href="/tags/Flume/" style="font-size: 15px;">Flume</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-archive"> 归档</i></div><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a><span class="archive-list-count">24</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">2</span></li></ul></div></div></div></div><a id="totop" href="#top"></a><div id="footer"> <div class="footer-info"><p><a href="/baidusitemap.xml">网站地图</a> |  <a href="/atom.xml">订阅本站</a> |  <a href="/about/">联系博主</a></p><p>本站总访问量：<i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>次，本站总访客数:<i id="busuanzi_container_site_uv"><i id="busuanzi_value_site_uv"></i></i>人</p><p><span> Copyright &copy;<a href="/." rel="nofollow">暗也橙子.</a></span><span> Theme by<a rel="nofollow" target="_blank" href="https://github.com/zzuUriel/zzuUriel.github.io"> BlueLake.</a></span><span> Count by<a href="http://busuanzi.ibruce.info/"> busuanzi.</a></span><span> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a></span></p></div></div></div><script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script><script type="text/javascript" src="/js/search.json.js?v=2.0.5"></script><div id="fullscreen-img" class="hide"><span class="close"></span></div><script type="text/javascript" src="/js/imgview.js?v=2.0.5" async></script><script type="text/javascript" src="/js/toctotop.js?v=2.0.5" async></script><link rel="stylesheet" type="text/css" href="/share/css/share.css"><script type="text/javascript" src="/share/js/social-share.js" charset="utf-8"></script><script type="text/javascript" src="/share/js/qrcode.js" charset="utf-8"></script></body></html>
