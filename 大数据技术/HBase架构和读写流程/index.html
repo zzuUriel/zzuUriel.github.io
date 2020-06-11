@@ -1,0 +1,197 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content=""><link rel="stylesheet" type="text/css" href="//fonts.loli.net/css?family=Source+Code+Pro"><link rel="stylesheet" type="text/css" href="/css/style-dark.css?v=2.0.5"><link rel="stylesheet" type="text/css" href="/css/highlight-dark.css?v=2.0.5"><link rel="Shortcut Icon" href="/favicon.ico"><link rel="bookmark" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><title>HBase架构和读写流程 | 暗也橙子Blog</title></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">HBase架构和读写流程</h1><a id="logo" href="/.">暗也橙子Blog</a><p class="description"></p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a></div><div id="search-form"><div id="result-mask" class="hide"></div><label><input id="search-key" type="text" autocomplete="off" placeholder="搜索"></label><div id="result-wrap" class="hide"><div id="search-result"></div></div><div class="hide"><template id="search-tpl"><div class="item"><a href="/{path}" title="{title}"><div class="title">{title}</div><div class="time">{date}</div><div class="tags">{tags}</div></a></div></template></div></div></div><div id="layout" class="layout-g"><div class="layout-l"><div class="content_container"><div class="post"><h1 class="post-title">HBase架构和读写流程</h1><div class="post-meta"><a href="/大数据技术/HBase架构和读写流程/#comments" class="comment-count"></a><p><span class="date">Aug 31, 2019</span><span><a href="/categories/大数据技术/" class="category">大数据技术</a></span><span><i id="busuanzi_container_page_pv"><i id="busuanzi_value_page_pv"></i><i>点击</i></i></span></p></div><div class="post-content"><h3 id="hbase架构和读写流程">HBase架构和读写流程</h3>
+<hr>
+<h4 id="hbase-简介">HBase 简介</h4>
+<p>HBase 是一个分布式，可扩展，面向列的适合存储海量数据的数据库，其最主要的功能是解决海量数据下的实时随机读写的问题。 通常HBase依赖HDFS做为底层分布式文件系统，本文以此做前提并展开，详细介绍HBase的架构和读写流程。</p>
+<h5 id="hbase关键进程">HBase关键进程</h5>
+<p>HBase是一个Master/Slave架构的分布式数据库，内部主要有HMaster， HRegionServer两个核心服务，依赖HDFS做底层存储，依赖zookeeper做一致性等协调工作。</p>
+<ul>
+<li>HMaster是一个轻量级进程，负责所有DDL操作，负载均衡，region信息管理，并在宕机恢复中起主导作用。</li>
+<li>HRegionServer管理HRegion，与客户端点对点通信，负责实时数据的读写。</li>
+<li>zookeeper做HMaster选举，关键信息如meta-region地址，replication进度，Regionserver地址与端口等存储。</li>
+</ul>
+<h5 id="hbase架构">HBase架构</h5>
+<p>HBase架构图如下：<br>
+<img src="/img/hbase/HBase%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1.png" alt="HBase架构图"><br>
+架构浅析:<br>
+1.HMaster</p>
+<ul>
+<li>负责管理HBase元数据，即表的结构、表存储的Region等元信息。</li>
+<li>负责表的创建，删除和修改（因为这些操作会导致HBase元数据的变动）。</li>
+<li>负责为HRegionServer分配Region，分配好后也会将元数据写入相应位置。</li>
+<li>负责HRegionserver失效后的region迁移等。</li>
+</ul>
+<p>如果对可用性要求较高，它需要做HA高可用（通过Zookeeper）。但是HMaster不会去处理Client端的数据读写请求，因为这样会加大其负载压力，具体的读写请求它会交给HRegionServer来做。</p>
+<p>2.HRegionServer</p>
+<ul>
+<li>一个RegionServer里有多个Region。</li>
+<li>处理Client端的读写请求（根据从HMaster返回的元数据找到对应的Region来读写数据）。</li>
+<li>管理Region的Split分裂、StoreFile的Compaction合并。</li>
+<li>RegionServer要和【DN】一起部署</li>
+</ul>
+<p>一个RegionServer管理着多个Region对象，在HBase运行期间，可以动态添加、删除HRegionServer</p>
+<p>3.HRegion</p>
+<ul>
+<li>一个HRegion里可能有1个或多个Store，是通过列族划分的。</li>
+<li>HRegionServer维护一个HLog。</li>
+<li>HRegion是分布式存储和负载的最小单元。</li>
+<li>每个Hregion对应table的一个region，表通常被保存在多个HRegionServer的多个HRegion中。</li>
+</ul>
+<p>因为HBase用于存储海量数据，故一张表中数据量非常之大，单机一般存不下这么大的数据，故HBase会将一张表按照行水平将大表划分为多个Region，每个Region保存表的一段连续数据。 初始只有1个Region，当一个Region增大到某个阈值后，便分割为两个。</p>
+<p>4.Store</p>
+<ul>
+<li>Store是存储落盘的最小单元，由内存中的MemStore和磁盘中的若干StoreFile组成。</li>
+<li>一个Store里有1个或多个StoreFile和一个memStore。</li>
+<li>每个Store存储一个列族。</li>
+</ul>
+<p>5.HLog</p>
+<ul>
+<li>预写日志，Write Ahead Log，WAL。</li>
+<li>每个HRegionServer中都有一个HLog对象。</li>
+<li>HLog记录数据的所有变更，可以用来做数据恢复。</li>
+</ul>
+<p>6.MemStore</p>
+<ul>
+<li>MemStore作为HBase的写缓存，保存着数据的最近一次更新，同时是HBase能够实现高性能随机读写的重要组成。</li>
+<li>HBase Table的每 Column family 维护一个MemStore，当满足一定条件时MemStore会执行一次flush，文件系统中生成新的HFile。而每次Flush的最小单位是Region。</li>
+</ul>
+<p>7.StoreFile</p>
+<ul>
+<li>memStore内存中的数据写到文件后就是StoreFile（即memstore的每次flush操作都会生成一个新的StoreFile），StoreFile底层是以HFile的格式保存。</li>
+<li>storefiles合并后逐步形成越来越大的storefile文件，当region内所有的storefile(hfile)的总大小超过 hbase.hregion.max.filesize触发split,一个region变为2个。 父region下线，新的split的2个region被HMaster分配到合适的RegionServer机器上。使得原先1个region的压力分流到2个region上。</li>
+</ul>
+<p>8.Block Cache</p>
+<ul>
+<li>Block Cache作为HBase的读缓存，会将一次文件查找的Block块缓存到Cache中，以便后续同一请求或者邻近数据查找请求，可以直接从内存中获取，避免昂贵的IO操作</li>
+<li>Block Cache是RegionServer级别 ，一个RegionServer只有一个Block Cache ,在RegionServer启动时完成Block Cache的初始化工作。</li>
+</ul>
+<p>9.zookeeper</p>
+<ul>
+<li>集群存储meta表的地址，而不是内容。</li>
+<li>regionserver主动向zk组成，使得master可随时感知各个RegionServer的健康状态。</li>
+<li>避免master单点故障(SPOF)。</li>
+</ul>
+<p>10.HBase Client</p>
+<ul>
+<li>HBase Client使用HBase的RPC机制与HMaster和HRegionServer进行通信。</li>
+<li>对于管理类操作(DDL)，Client与HMaster进行RPC;对于数据读写类操作(DML)，Client与HRegionServer进行RPC。</li>
+</ul>
+<h4 id="写流程">写流程</h4>
+<h5 id="hbase写流程">HBase写流程</h5>
+<p>HBase写流程图如下：<br>
+<img src="/img/hbase/HBase%E5%86%99%E6%B5%81%E7%A8%8B%E4%B8%89%E4%B8%AA%E9%98%B6%E6%AE%B5.png" alt="HBase写流程图"></p>
+<ol>
+<li>Client访问ZK，根据ROOT表获取hbase:meta表所在Region的位置信息，并将该位置信息写入Client Cache。（注：为了加快数据访问速度，我们将元数据、Region位置等信息缓存在Client Cache中。）</li>
+<li>Client读取meta表，再根据meta表中查询得到的Namespace、表名和RowKey等相关信息，获取将要写入Region的位置信息，最后client端会将meta表写入Client Cache。</li>
+<li>Client向上一步HRegionServer发出写请求，HRegionServer先将操作和数据写入HLog（预写日志，Write Ahead Log，WAL），再将数据写入对应的region的store的MemStore，MemStore里面的数据也是对rowkey进行字典排序的。（联想：HDFS中也是如此，EditLog写入时机也是在真实读写之前发生）</li>
+</ol>
+<p>当MemStore的数据量超过阈值时，将数据溢写磁盘，生成一个StoreFile文件。<br>
+当Store中StoreFile的数量超过阈值时，将若干小StoreFile合并（Compact）为一个大StoreFile。<br>
+当Region中最大Store的大小超过阈值时，Region分裂（Split），等分成两个子Region。</p>
+<h5 id="memstore-flush触发条件调优关键">memstore flush触发条件（调优关键）</h5>
+<ul>
+<li>
+<p>memstore级别限制：</p>
+<p>当region的任意一个store的memstore的size，达到<br>
+hbase.hregion.memstore.flush.size（默认128M），<br>
+会触发memstore flush操作,将数据溢写磁盘，生成一个StoreFile文件。</p>
+</li>
+<li>
+<p>region级别限制:</p>
+<p>当region所有的memstore的size和，达到<br>
+hbase.hregion.memstore.block.multiplier *<br>
+hbase.hregion.memstore.flush.size= 4*128=512M<br>
+会触发memstore flush，同时会阻塞所有的写入该store的写请求！<br>
+继续对该region写请求，会抛错  region too busy exception异常。</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>regionserver级别限制：</p>
+<p>1）当rs节点上所有的memstore的size和 ，超过低水位线阈值<br>
+hbase.regionserver内存大小*<br>
+hbase.regionserver.global.memstore.size*<br>
+hbase.regionserver.global.memstore.size.lower.limit<br>
+=48G * 0.45 * 0.91 = 19.656G，<br>
+rs强制执行flush。先flush memstore最大的region，再第二大的，<br>
+直到总的memstore大小下降到低水位线的阈值。</p>
+<p>2）如果此时写入非常繁忙，导致总的memstore大小达到<br>
+hbase.regionserver内存大小*<br>
+hbase.regionserver.global.memstore.size = 21.6G<br>
+rs会阻塞写、读的请求，并强制flush，达到低水位阈值(安全阈值)</p>
+</li>
+<li>
+<p>Hlog级别限制<br>
+当rs的hlog数量达到hbase.regionserver.max.logs  32<br>
+会选择最早的hlog的对应的一个或多个region进行flush。</p>
+</li>
+<li>
+<p>定期级别限制<br>
+hbase.regionserver.optionalcacheflushinterval 默认1h<br>
+为避免所有的memstore在同一个时间点进行flush导致的问题，<br>
+定期的flush其实会有一定的随机时间延时。设置为0就是禁用。</p>
+</li>
+<li>
+<p>手动级别限制<br>
+flush命令，可以封装脚本。</p>
+</li>
+</ul>
+<p>总结：<br>
+在生产上，唯独触发rs级别的限制导致flush,是属于灾难级别的，会阻塞所有落在该rs节点的读写请求，直到总的memstore大小降到低水位线，阻塞时间较长；其他的级别限制，只会阻塞对应的region的读写请求，阻塞时间较短。</p>
+<h5 id=""></h5>
+<h4 id="读流程">读流程</h4>
+<p>HBase读流程图如下：<br>
+<img src="/img/hbase/HBase%E8%AF%BB%E6%B5%81%E7%A8%8B%E4%B8%89%E4%B8%AA%E9%98%B6%E6%AE%B5.png" alt="HBase读流程图"></p>
+<ol>
+<li>先去zk获取hbase:meta表所在的rs节点，</li>
+<li>在hbase:meta表根据读rk确定所在的目标rs节点和region</li>
+<li>将读请求封装，发送给目标的rs节点，进行处理。<br>
+先到memstore查数据，查不到到blockcache查，再查不到就访问磁盘的StoreFile读数据。</li>
+</ol>
+<h4 id="compaction-合并">compaction 合并</h4>
+<p>每次flush操作都是将一个memstore数据写到HFile文件，导致hdfs上有很多的hfile文件，小文件多了对后面的读操作有影响，所以hbase会定时将hfile文件合并。</p>
+<h5 id="分类">分类</h5>
+<p>Compaction分为两种：</p>
+<ul>
+<li>minor compaction 小合并: 选取部分小的 相邻的hfile合并为一个更大的hfile</li>
+<li>major compaction 大合并：将一个store的所有的hfile文件合并一个hfile。</li>
+</ul>
+<p>major compaction过程会清理：</p>
+<p>1）TTL过期数据<br>
+2）版本号超过设定的数据<br>
+3）被删除的数据(delete)</p>
+<p>所以 major compaction持续时间较长，整个过程消费大量的系统资源（带宽和短时间的IO压力），对上层业务会有较大的影响！<br>
+生产上尽可能的避免发生major compaction，一般通过关闭自动触发大合并，改为手动触发，在业务低谷时期，执行。（一般在凌晨调度脚本，去执行）</p>
+<h5 id="作用">作用</h5>
+<p>随着hflie文件越来越多，查询需要更多的IO，读取延迟较大。所以需要compaction，主要为了消费带宽和短时间的IO压力，来换取以后查询的低延迟。<br>
+合并作用：</p>
+<ul>
+<li>合并小文件  减少文件数量  减小稳定度的延迟。</li>
+<li>消除无效数据 降低存储空间。</li>
+<li>提高数据的本地化率。</li>
+</ul>
+<h5 id="触发条件">触发条件</h5>
+<p>1.minor compaction合并的触发条件：<br>
+1）memstore flush：<br>
+合并根源来自flush，当memstore达到阈值或者其他条件就触发flush，将数据写到hflie，正是因为文件多，才需要合    并。<br>
+每次flush之后，就当前的store文件数进行校验判断，一旦store的总文件数超过<br>
+hbase.hstore.compactionThreshold（默认3），就触发合并，该参数一般需要调大。<br>
+一次minor cmpaction最多合并hbase.hstore.compaction.max个文件（默认值10）。</p>
+<p>2）后台线程定期检查<br>
+后台线程compactchecker 定期检查是否需要执行合并。检查周期为<br>
+hbase.server.thread.wakefrequency*<br>
+hbase.server.compactchecker.interval.multiplier<br>
+=10000ms*1000。在不做参数修改情况的下，compactchecker 大概是2h,46min,40s执行一次。</p>
+<ul>
+<li>当文件小于 hbase.hstore.compaction.min.size（默认128M）会被立即添加到合并的队列。</li>
+<li>当合并队列中的StoreFile数量超过参数hbase.hstore.compaction.min（更早的版本中这个的参数的名字为hbase.hstore.compactionThreshold）的值（默认3）时会触发compaction操作。一次minor cmpaction最多合并hbase.hstore.compaction.max个文件（默认值10）。</li>
+<li>如果一个文件的大小超过hbase.hstore.compaction.max.size的值（默认值LONG.MAX_VALUE），则会被compaction操作排除。</li>
+<li>通过hbase.hstore.compaction.ratio参数（默认值1.2）确定大小超过hbase.hstore.compaction.min.size的文件是否需要进行compaction。如果一个文件的大小小于它后面（按文件产生的先后顺序，总是从新产生的文件开始选择即“老文件”）的hbase.hstore.compaction.max个StoreFile的大小之和乘以hbase.hstore.compaction.ratio，则该StoreFile文件也会加入到合并队列中。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--表示至少需要三个满足条件的store file时，minor compaction才会启动--&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">	&lt;name&gt;hbase.hstore.compactionThreshold&lt;<span class="regexp">/name&gt;</span></span><br><span class="line"><span class="regexp">	&lt;value&gt;3&lt;/</span>value&gt;</span><br><span class="line">&lt;<span class="regexp">/property&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">&lt;!--表示一次minor compaction中最多选取10个store file--&gt;</span></span><br><span class="line"><span class="regexp">&lt;property&gt;</span></span><br><span class="line"><span class="regexp">	&lt;name&gt;hbase.hstore.compaction.max&lt;/</span>name&gt;</span><br><span class="line">	&lt;value&gt;<span class="number">10</span>&lt;<span class="regexp">/value&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>property&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--默认值为<span class="number">128</span>M,</span><br><span class="line">表示文件大小小于该值的store file 一定会加入到minor compaction的store file中</span><br><span class="line">--&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">	&lt;name&gt;hbase.hstore.compaction.min.size&lt;<span class="regexp">/name&gt;</span></span><br><span class="line"><span class="regexp">	&lt;value&gt;134217728&lt;/</span>value&gt;</span><br><span class="line">&lt;<span class="regexp">/property&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">&lt;!--默认值为LONG.MAX_VALUE，表示文件大小大于该值的store file 会被minor compaction排除--&gt;</span></span><br><span class="line"><span class="regexp">&lt;property&gt;</span></span><br><span class="line"><span class="regexp">	&lt;name&gt;hbase.hstore.compaction.max.size&lt;/</span>name&gt;</span><br><span class="line">	&lt;value&gt;<span class="number">9223372036854775807</span>&lt;<span class="regexp">/value&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>property&gt;</span><br></pre></td></tr></table></figure>
+<p>2.major compaction合并的触发条件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--默认值为<span class="number">7</span>天进行一次大合并，--&gt;</span><br><span class="line">&lt;property&gt;</span><br><span class="line">	&lt;name&gt;hbase.hregion.majorcompaction&lt;<span class="regexp">/name&gt;</span></span><br><span class="line"><span class="regexp">	&lt;value&gt;604800000&lt;/</span>value&gt;</span><br><span class="line">&lt;<span class="regexp">/property&gt;</span></span><br></pre></td></tr></table></figure>
+<p>一般是使用命令major_compact手动进行，将参数hbase.hregion.majorcompaction的值设为0，表示禁用major compaction。其默认值为7天。</p>
+<p>生产上：<br>
+hbase.hregion.majorcompaction      0  大合并关闭<br>
+hbase.hstore.compactionThreshold   6（默认3） 小合并</p>
+</div><div class="post-copyright"><blockquote><p>原文作者: 暗也橙子</p><p>原文链接: <a href="https://zzuuriel.github.io/大数据技术/HBase架构和读写流程/">https://zzuuriel.github.io/大数据技术/HBase架构和读写流程/</a></p><p>版权声明: 转载请注明出处(必须保留作者署名及链接)</p></blockquote></div><div class="tags"><a href="/tags/HBase/">HBase</a></div><div class="post-share"><div class="social-share"><span>分享到:</span></div></div><div class="post-nav"><a href="/大数据技术/60.CentOS7安装单机版Kudu/" class="pre">CentOS7安装单机版Kudu </a><a href="/大数据技术/HBase的Rowkey设计/" class="next">HBase的Rowkey设计</a></div><div id="comments"></div></div></div></div><div class="layout-r"><div id="sidebar"><div class="search-pla"></div><div id="toc" class="widget"><div class="widget-title"><i class="fa fa-fei">文章目录</i></div><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#hbase架构和读写流程"><span class="toc-text">HBase&#x67B6;&#x6784;&#x548C;&#x8BFB;&#x5199;&#x6D41;&#x7A0B;</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#hbase-简介"><span class="toc-text">HBase &#x7B80;&#x4ECB;</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#hbase关键进程"><span class="toc-text">HBase&#x5173;&#x952E;&#x8FDB;&#x7A0B;</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#hbase架构"><span class="toc-text">HBase&#x67B6;&#x6784;</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#写流程"><span class="toc-text">&#x5199;&#x6D41;&#x7A0B;</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#hbase写流程"><span class="toc-text">HBase&#x5199;&#x6D41;&#x7A0B;</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#memstore-flush触发条件调优关键"><span class="toc-text">memstore flush&#x89E6;&#x53D1;&#x6761;&#x4EF6;&#xFF08;&#x8C03;&#x4F18;&#x5173;&#x952E;&#xFF09;</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#"><span class="toc-text"></span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#读流程"><span class="toc-text">&#x8BFB;&#x6D41;&#x7A0B;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#compaction-合并"><span class="toc-text">compaction &#x5408;&#x5E76;</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#分类"><span class="toc-text">&#x5206;&#x7C7B;</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#作用"><span class="toc-text">&#x4F5C;&#x7528;</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#触发条件"><span class="toc-text">&#x89E6;&#x53D1;&#x6761;&#x4EF6;</span></a></li></ol></li></ol></li></ol></div><div class="widget"><div class="widget-title"><i class="fa fa-xie"> 最新文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/大数据技术/修改Flume源码使taildir source支持递归（可配置）/">修改Flume源码使taildir source支持递归（可配置）</a></li><li class="post-list-item"><a class="post-list-link" href="/大数据技术/解决Spark on YARN时jar包乱飞的问题/">解决Spark on YARN时jar包乱飞的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/大数据技术/Flink之Watermark理解/">Flink之Watermark理解</a></li><li class="post-list-item"><a class="post-list-link" href="/大数据技术/2.spark-2.4.5-bin-2.6.0-cdh5.15.1.tgz/"> Spark-2.4.5源码编译</a></li><li class="post-list-item"><a class="post-list-link" href="/大数据技术/Flink自定义触发器/">Flink自定义触发器</a></li><li class="post-list-item"><a class="post-list-link" href="/大数据技术/60.深入理解Spark算子aggregate/">深入理解Spark算子aggregate</a></li><li class="post-list-item"><a class="post-list-link" href="/大数据技术/60.Kudu常用Api(java)/">Kudu常用Api(java) </a></li><li class="post-list-item"><a class="post-list-link" href="/大数据技术/60.CentOS7安装单机版Kudu/">CentOS7安装单机版Kudu </a></li><li class="post-list-item"><a class="post-list-link" href="/大数据技术/HBase架构和读写流程/">HBase架构和读写流程</a></li><li class="post-list-item"><a class="post-list-link" href="/大数据技术/HBase的Rowkey设计/">HBase的Rowkey设计</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-gui"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux基础/">Linux基础</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Scala编程语言/">Scala编程语言</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shell脚本/">Shell脚本</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据技术/">大数据技术</a><span class="category-list-count">23</span></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-biao"> 标签</i></div><div class="tagcloud"><a href="/tags/Spark/" style="font-size: 15px;">Spark</a> <a href="/tags/Hadoop/" style="font-size: 15px;">Hadoop</a> <a href="/tags/Scala/" style="font-size: 15px;">Scala</a> <a href="/tags/Kudu/" style="font-size: 15px;">Kudu</a> <a href="/tags/Flink/" style="font-size: 15px;">Flink</a> <a href="/tags/HBase/" style="font-size: 15px;">HBase</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Shell/" style="font-size: 15px;">Shell</a> <a href="/tags/Flume/" style="font-size: 15px;">Flume</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-archive"> 归档</i></div><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a><span class="archive-list-count">28</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">2</span></li></ul></div></div></div></div><a id="totop" href="#top"></a><div id="footer"> <div class="footer-info"><p><a href="/baidusitemap.xml">网站地图</a> |  <a href="/atom.xml">订阅本站</a> |  <a href="/about/">联系博主</a></p><p>本站总访问量：<i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>次，本站总访客数:<i id="busuanzi_container_site_uv"><i id="busuanzi_value_site_uv"></i></i>人</p><p><span> Copyright &copy;<a href="/." rel="nofollow">暗也橙子.</a></span><span> Theme by<a rel="nofollow" target="_blank" href="https://github.com/zzuUriel/zzuUriel.github.io"> BlueLake.</a></span><span> Count by<a href="http://busuanzi.ibruce.info/"> busuanzi.</a></span><span> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a></span></p></div></div></div><script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script><script type="text/javascript" src="/js/search.json.js?v=2.0.5"></script><div id="fullscreen-img" class="hide"><span class="close"></span></div><script type="text/javascript" src="/js/imgview.js?v=2.0.5" async></script><script type="text/javascript" src="/js/toctotop.js?v=2.0.5" async></script><link rel="stylesheet" type="text/css" href="/share/css/share.css"><script type="text/javascript" src="/share/js/social-share.js" charset="utf-8"></script><script type="text/javascript" src="/share/js/qrcode.js" charset="utf-8"></script></body></html>

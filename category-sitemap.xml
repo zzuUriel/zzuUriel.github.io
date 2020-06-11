@@ -7,8 +7,29 @@
     </url>
 
     <url>
-        <loc>https://zzuuriel.github.io/categories/Hadoop/</loc>
-        <lastmod>2020-06-11T12:12:28.979Z</lastmod>
+        <loc>https://zzuuriel.github.io/categories/Linux%E5%9F%BA%E7%A1%80/</loc>
+        <lastmod>2020-06-11T13:36:22.461Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://zzuuriel.github.io/categories/Scala%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/</loc>
+        <lastmod>2020-06-11T13:38:27.004Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://zzuuriel.github.io/categories/Shell%E8%84%9A%E6%9C%AC/</loc>
+        <lastmod>2020-06-11T13:40:46.004Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://zzuuriel.github.io/categories/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/</loc>
+        <lastmod>2020-06-11T13:44:40.563Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
