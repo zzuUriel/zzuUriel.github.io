@@ -3,12 +3,17 @@
 
     <sitemap>
         <loc>https://zzuuriel.github.io/post-sitemap.xml</loc>
-        <lastmod>2020-06-11T11:38:27.402Z</lastmod>
+        <lastmod>2020-06-11T12:12:28.979Z</lastmod>
     </sitemap>
 
     <sitemap>
         <loc>https://zzuuriel.github.io/page-sitemap.xml</loc>
         <lastmod>2020-05-06T03:48:05.821Z</lastmod>
+    </sitemap>
+
+    <sitemap>
+        <loc>https://zzuuriel.github.io/category-sitemap.xml</loc>
+        <lastmod>2020-06-11T12:12:28.979Z</lastmod>
     </sitemap>
 
     <sitemap>
