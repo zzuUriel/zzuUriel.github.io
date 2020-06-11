@@ -44,13 +44,6 @@
     </url>
 
     <url>
-        <loc>https://zzuuriel.github.io/tags/Shell/</loc>
-        <lastmod>2020-06-11T13:40:46.004Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://zzuuriel.github.io/tags/Flume/</loc>
         <lastmod>2020-06-11T13:44:20.084Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -60,6 +53,13 @@
     <url>
         <loc>https://zzuuriel.github.io/tags/Spark/</loc>
         <lastmod>2020-06-11T13:44:40.563Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://zzuuriel.github.io/tags/Shell/</loc>
+        <lastmod>2020-06-11T13:57:55.220Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>

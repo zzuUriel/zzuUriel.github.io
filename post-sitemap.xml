@@ -7,6 +7,30 @@
     </url>
 
     <url>
+        <loc>https://zzuuriel.github.io/article/Shell%E8%84%9A%E6%9C%AC%E5%9F%BA%E7%A1%80/</loc>
+        <lastmod>2020-06-11T13:57:55.220Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://zzuuriel.github.io/article/Shell%E8%84%9A%E6%9C%AC%E9%AB%98%E7%BA%A7/</loc>
+        <lastmod>2020-06-11T13:57:47.772Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://zzuuriel.github.io/article/Shell%E8%84%9A%E6%9C%ACif%E5%88%A4%E6%96%AD%EF%BC%88%E6%95%B0%E5%AD%97%E6%9D%A1%E4%BB%B6%EF%BC%8C%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%9D%A1%E4%BB%B6%EF%BC%8C%E6%96%87%E4%BB%B6%E6%88%96%E6%96%87%E4%BB%B6%E5%A4%B9%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8/</loc>
+        <lastmod>2020-06-11T13:57:38.644Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://zzuuriel.github.io/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/%E7%AA%84%E4%BE%9D%E8%B5%96%E5%92%8C%E5%AE%BD%E4%BE%9D%E8%B5%96&Spark%E4%BB%BB%E5%8A%A1%E4%B8%AD%E7%9A%84Stage(%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB)/</loc>
         <lastmod>2020-06-11T13:44:40.563Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -81,30 +105,6 @@
     <url>
         <loc>https://zzuuriel.github.io/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Spark%20Cluster%20Mode%20Overview%20%E5%AE%98%E7%BD%91%E7%BF%BB%E8%AF%91/</loc>
         <lastmod>2020-06-11T13:41:07.515Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://zzuuriel.github.io/Shell%E8%84%9A%E6%9C%AC/Shell%E8%84%9A%E6%9C%AC%E5%9F%BA%E7%A1%80/</loc>
-        <lastmod>2020-06-11T13:40:46.004Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://zzuuriel.github.io/Shell%E8%84%9A%E6%9C%AC/Shell%E8%84%9A%E6%9C%AC%E9%AB%98%E7%BA%A7/</loc>
-        <lastmod>2020-06-11T13:39:08.210Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>https://zzuuriel.github.io/Shell%E8%84%9A%E6%9C%AC/Shell%E8%84%9A%E6%9C%ACif%E5%88%A4%E6%96%AD%EF%BC%88%E6%95%B0%E5%AD%97%E6%9D%A1%E4%BB%B6%EF%BC%8C%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%9D%A1%E4%BB%B6%EF%BC%8C%E6%96%87%E4%BB%B6%E6%88%96%E6%96%87%E4%BB%B6%E5%A4%B9%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8/</loc>
-        <lastmod>2020-06-11T13:38:43.029Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
