@@ -2,18 +2,8 @@
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     <sitemap>
-        <loc>https://zzuuriel.github.io/post-sitemap.xml</loc>
-        <lastmod>2020-06-11T11:38:27.402Z</lastmod>
-    </sitemap>
-
-    <sitemap>
         <loc>https://zzuuriel.github.io/page-sitemap.xml</loc>
         <lastmod>2020-05-06T03:48:05.821Z</lastmod>
-    </sitemap>
-
-    <sitemap>
-        <loc>https://zzuuriel.github.io/tag-sitemap.xml</loc>
-        <lastmod>2020-05-31T14:23:04.330Z</lastmod>
     </sitemap>
 
 </sitemapindex>
