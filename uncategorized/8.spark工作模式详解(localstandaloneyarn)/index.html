@@ -1,0 +1,88 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content=""><link rel="stylesheet" type="text/css" href="//fonts.loli.net/css?family=Source+Code+Pro"><link rel="stylesheet" type="text/css" href="/css/style-dark.css?v=2.0.5"><link rel="stylesheet" type="text/css" href="/css/highlight-dark.css?v=2.0.5"><link rel="Shortcut Icon" href="/favicon.ico"><link rel="bookmark" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><title> Spark工作模式详解(local/standalone/yarn)  | 暗也橙子Blog</title></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden"> Spark工作模式详解(local/standalone/yarn) </h1><a id="logo" href="/.">暗也橙子Blog</a><p class="description"></p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a></div><div id="search-form"><div id="result-mask" class="hide"></div><label><input id="search-key" type="text" autocomplete="off" placeholder="搜索"></label><div id="result-wrap" class="hide"><div id="search-result"></div></div><div class="hide"><template id="search-tpl"><div class="item"><a href="/{path}" title="{title}"><div class="title">{title}</div><div class="time">{date}</div><div class="tags">{tags}</div></a></div></template></div></div></div><div id="layout" class="layout-g"><div class="layout-l"><div class="content_container"><div class="post"><h1 class="post-title"> Spark工作模式详解(local/standalone/yarn) </h1><div class="post-meta"><a href="/uncategorized/8.spark工作模式详解(localstandaloneyarn)/#comments" class="comment-count"></a><p><span class="date">Jul 15, 2019</span><span><i id="busuanzi_container_page_pv"><i id="busuanzi_value_page_pv"></i><i>点击</i></i></span></p></div><div class="post-content"><h3 id="spark工作模式详解localstandaloneyarn">Spark工作模式详解(local/standalone/yarn)</h3>
+<hr>
+<h4 id="spark-运行模式分类">Spark 运行模式分类</h4>
+<ul>
+<li>本地模式</li>
+<li>standalone模式</li>
+<li>spark on yarn 模式，又分未yarn-client和yarn-cluster</li>
+</ul>
+<h4 id="本地模式-local">本地模式-local</h4>
+<p>Spark不一定非要跑在hadoop集群，可以在本地，起多个线程的方式来指定。将Spark应用以多线程的方式直接运行在本地，一般都是为了方便调试，本地模式分三类</p>
+<ul>
+<li>local：只启动一个executor</li>
+<li>local[k]:启动k个executor</li>
+<li>local[*]：启动跟cpu数目相同的executor</li>
+</ul>
+<p>注意：</p>
+<ul>
+<li>Spark单机运行，一般用于开发测试。</li>
+<li>Local模式又称为本地模式，运行该模式非常简单，只需要把Spark的安装包解压后，改一些常用的配置即可使用，而不用启动Spark的Master、Worker守护进程( 只有集群的Standalone方式时，才需要这两个角色)，也不用启动Hadoop的各服务（除非你要用到HDFS），这是和其他模式的区别 。</li>
+<li>SparkSubmit进程，既是客户提交任务的Client进程、又是Spark的driver程序、还充当着Spark执行Task的Executor角色。</li>
+</ul>
+<h4 id="standalone模式">standalone模式</h4>
+<p>构建一个由Master+Slave构成的Spark集群，Spark运行在集群中。 分布式部署集群，自带完整的服务，资源管理和任务监控是Spark自己监控，这个模式也是其他模式的基础。<br>
+和单机运行的模式不同，这里必须在执行应用程序前，先启动Spark的Master和Worker守护进程。不用启动Hadoop服务，除非你用到了HDFS的内容 。</p>
+<p><img src="/img/spark/004.png" alt="spark-standalone模式"></p>
+<p>standalone模式角色说明:</p>
+<ul>
+<li>Master进程做为cluster manager，用来对应用程序申请的资源进行管理。</li>
+<li>SparkSubmit做为Client端和运行driver程序。</li>
+<li>CoarseGrainedExecutorBackend 用来并发执行应用程序。</li>
+</ul>
+<p>Driver运行的位置:</p>
+<ul>
+<li>Standalone模式是Spark实现的资源调度框架，其主要的节点有Client节点、Master节点和   Worker节点。其中Driver既可以运行在Master节点上中，也可以运行在本地Client端。</li>
+<li>当用spark-shell交互式工具提交Spark的Job时，Driver在Master节点上运行；</li>
+<li>当使用spark-submit工具提交Job或者在Eclips、IDEA等开发平台上使用”new SparkConf.setManager(“spark://master:7077”)”方式运行Spark任务时，Driver是运行在本地Client端上的。</li>
+</ul>
+<p>standalone运行流程:</p>
+<p>1.SparkContext连接到Master，向Master注册并申请资源（CPU Core 和Memory）；<br>
+2.Master根据SparkContext的资源申请要求和Worker心跳周期内报告的信息决定在哪个Worker上分配资源，然后在该Worker上获取资源，然后启动StandaloneExecutorBackend；<br>
+3.StandaloneExecutorBackend向SparkContext注册；<br>
+4.SparkContext将Applicaiton代码发送给StandaloneExecutorBackend；并且SparkContext解析Applicaiton代码，构建DAG图，并提交给DAG Scheduler分解成Stage（当碰到Action操作时，就会催生Job；每个Job中含有1个或多个Stage，Stage一般在获取外部数据和shuffle之前产生），DAG Scheduler将TaskSet提交给Task Scheduler，Task Scheduler负责将Task分配到相应的Worker，最后提交给StandaloneExecutorBackend执行；<br>
+5.StandaloneExecutorBackend会建立Executor线程池，开始执行Task，并向SparkContext报告，直至Task完成；<br>
+6.所有Task完成后，SparkContext向Master注销，释放资源。</p>
+<h4 id="spark-on-yarn模式">Spark on Yarn模式</h4>
+<p>Spark客户端直接连接Yarn。不需要额外构建Spark集群。 分布式部署集群，资源和任务监控交给yarn管理，但是目前仅支持粗粒度资源分配方式，包含cluster和client运行模式，cluster适合生产，driver运行在集群子节点，具有容错功能，client适合调试，dirver运行在客户端。</p>
+<h5 id="spark-on-yarn-client模式">Spark on yarn client模式</h5>
+<p><img src="/img/spark/005.png" alt="Spark-yarn-client"></p>
+<p>Driver运行位置:</p>
+<ul>
+<li>Driver在本地运行，并没有在nodemanager上，在nodemanager上启动的applicationMaster仅仅是一个ExecutorLanucher，功能十分有限。</li>
+</ul>
+<p>运行流程:</p>
+<p>1.Spark Yarn Client向YARN的ResourceManager发送请求，申请启动Application Master。同时在SparkContext初始化中将创建DAGScheduler和TASKScheduler等，由于我们选择的是Yarn-Client模式，程序会选择YarnClientClusterScheduler和YarnClientSchedulerBackend；<br>
+2.ResourceManager收到请求后，在集群中选择一个NodeManager，为该应用程序分配第一个Container，要求它在这个Container中启动应用程序的ApplicationMaster（实际启动的是ExecutorLanucher，功能十分有限），与YARN-Cluster区别的是在该ApplicationMaster不运行SparkContext，只与SparkContext进行联系进行资源的分派的ExecutorLanucher；<br>
+3.Client中的SparkContext初始化完毕后，与ApplicationMaster建立通讯，向ResourceManager注册，根据任务信息向ResourceManager申请资源（Container）；<br>
+4.一旦ApplicationMaster申请到资源（也就是Container）后，便与对应的NodeManager通信，要求它在获得的Container中启动启动CoarseGrainedExecutorBackend，CoarseGrainedExecutorBackend启动后会向Client中的SparkContext注册并申请Task；<br>
+5.Client中的SparkContext分配Task给CoarseGrainedExecutorBackend执行，CoarseGrainedExecutorBackend运行Task并向Driver汇报运行的状态和进度，以让Client随时掌握各个任务的运行状态，从而可以在任务失败时重新启动任务；<br>
+6.应用程序运行完成后，Client的SparkContext向ResourceManager申请注销并关闭自己。</p>
+<h5 id="spark-on-yarn-cluster模式">spark on yarn cluster模式</h5>
+<p><img src="/img/spark/006.png" alt="Spark-yarn-cluster"><br>
+Driver 运行位置:</p>
+<ul>
+<li>Driver运行在nodemanager上。</li>
+</ul>
+<p>运行流程:</p>
+<ol>
+<li>Spark Yarn Client向YARN中resourcemanager提交应用程序，包括ApplicationMaster程序、启动ApplicationMaster的命令、需要在Executor中运行的程序等；</li>
+<li>ResourceManager收到请求后，在集群中选择一个NodeManager，为该应用程序分配第一个Container，要求它在这个Container中启动应用程序的ApplicationMaster(相当于Driver客户端)，其中ApplicationMaster进行SparkContext等的初始化；</li>
+<li>ApplicationMaster向ResourceManager注册，这样用户可以直接通过ResourceManage查看应用程序的运行状态，然后它将采用轮询的方式通过RPC协议为各个任务申请资源，并监控它们的运行状态直到运行结束；</li>
+<li>一旦ApplicationMaster申请到资源（也就是Container）后，便与对应的NodeManager通信，要求它在获得的Container中启动启动CoarseGrainedExecutorBackend，CoarseGrainedExecutorBackend启动后会向ApplicationMaster中的SparkContext注册并申请Task。这一点和Standalone模式一样，只不过SparkContext在Spark Application中初始化时，使用CoarseGrainedSchedulerBackend配合YarnClusterScheduler进行任务的调度，其中YarnClusterScheduler只是对TaskSchedulerImpl的一个简单包装，增加了对Executor的等待逻辑等；</li>
+<li>ApplicationMaster中的SparkContext分配Task给CoarseGrainedExecutorBackend执行，CoarseGrainedExecutorBackend运行Task并向ApplicationMaster汇报运行的状态和进度，以让ApplicationMaster随时掌握各个任务的运行状态，从而可以在任务失败时重新启动任务；</li>
+<li>应用程序运行完成后，ApplicationMaster向ResourceManager申请注销并关闭自己。</li>
+</ol>
+<h5 id="spark-on-yarn-client与spark-on-yarn-cluster之间的区别">Spark on yarn client与Spark on yarn Cluster之间的区别</h5>
+<p>yarn-client：</p>
+<ul>
+<li>用于测试，因为driver运行在本地客户端，负责调度application，会与yarn集群产生超大量的网络通信。好处是直接执行时，本地可以看到所有的log，方便调试。</li>
+<li>Application Master仅仅向YARN请求Executor，Client会和请求的Container通信来调度他们工作，也就是说Client不能离开。</li>
+</ul>
+<p>yarn-cluster：</p>
+<ul>
+<li>生产环境使用， 因为driver运行在nodemanager上，缺点在于调试不方便，本地用spark-submit提价以后，看不到log，只能通过yarn application-logs application_id这种命令查看，很麻烦。</li>
+<li>Driver运行在AM(Application Master)中，它负责向YARN申请资源，并监督作业的运行状况。当用户提交了作业之后，就可以关掉Client，作业会继续在YARN上运行，因而YARN-Cluster模式不适合运行交互类型的作业。</li>
+</ul>
+<p>总结：<br>
+理解YARN-Client和YARN-Cluster深层次的区别之前先清楚一个概念：Application Master。在YARN中，每个Application实例都有一个ApplicationMaster进程，它是Application启动的第一个容器。它负责和ResourceManager打交道并请求资源，获取资源之后告诉NodeManager为其启动Container。从深层次的含义讲YARN-Cluster和YARN-Client模式的区别其实就是ApplicationMaster进程的区别。</p>
+</div><div class="post-copyright"><blockquote><p>原文作者: 暗也橙子</p><p>原文链接: <a href="https://zzuuriel.github.io/uncategorized/8.spark工作模式详解(localstandaloneyarn)/">https://zzuuriel.github.io/uncategorized/8.spark工作模式详解(localstandaloneyarn)/</a></p><p>版权声明: 转载请注明出处(必须保留作者署名及链接)</p></blockquote></div><div class="tags"><a href="/tags/Spark/">Spark</a></div><div class="post-share"><div class="social-share"><span>分享到:</span></div></div><div class="post-nav"><a href="/uncategorized/9.Spark Streaming中foreachRDD的使用/" class="pre"> Spark Streaming中foreachRDD的使用 </a><a href="/uncategorized/累加器和广播变量&amp;&amp;持久化/" class="next">累加器和广播变量&amp;&amp;持久化</a></div><div id="comments"></div></div></div></div><div class="layout-r"><div id="sidebar"><div class="search-pla"></div><div id="toc" class="widget"><div class="widget-title"><i class="fa fa-fei">文章目录</i></div><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#spark工作模式详解localstandaloneyarn"><span class="toc-text">Spark&#x5DE5;&#x4F5C;&#x6A21;&#x5F0F;&#x8BE6;&#x89E3;(local/standalone/yarn)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#spark-运行模式分类"><span class="toc-text">Spark &#x8FD0;&#x884C;&#x6A21;&#x5F0F;&#x5206;&#x7C7B;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#本地模式-local"><span class="toc-text">&#x672C;&#x5730;&#x6A21;&#x5F0F;-local</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#standalone模式"><span class="toc-text">standalone&#x6A21;&#x5F0F;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#spark-on-yarn模式"><span class="toc-text">Spark on Yarn&#x6A21;&#x5F0F;</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#spark-on-yarn-client模式"><span class="toc-text">Spark on yarn client&#x6A21;&#x5F0F;</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#spark-on-yarn-cluster模式"><span class="toc-text">spark on yarn cluster&#x6A21;&#x5F0F;</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#spark-on-yarn-client与spark-on-yarn-cluster之间的区别"><span class="toc-text">Spark on yarn client&#x4E0E;Spark on yarn Cluster&#x4E4B;&#x95F4;&#x7684;&#x533A;&#x522B;</span></a></li></ol></li></ol></li></ol></div><div class="widget"><div class="widget-title"><i class="fa fa-xie"> 最新文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/uncategorized/修改Flume源码使taildir source支持递归（可配置）/">修改Flume源码使taildir source支持递归（可配置）</a></li><li class="post-list-item"><a class="post-list-link" href="/uncategorized/解决Spark on YARN时jar包乱飞的问题/">解决Spark on YARN时jar包乱飞的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/uncategorized/Flink之Watermark理解/">Flink之Watermark理解</a></li><li class="post-list-item"><a class="post-list-link" href="/uncategorized/2.spark-2.4.5-bin-2.6.0-cdh5.15.1.tgz/"> Spark-2.4.5源码编译</a></li><li class="post-list-item"><a class="post-list-link" href="/uncategorized/Flink自定义触发器/">Flink自定义触发器</a></li><li class="post-list-item"><a class="post-list-link" href="/uncategorized/60.深入理解Spark算子aggregate/">深入理解Spark算子aggregate</a></li><li class="post-list-item"><a class="post-list-link" href="/uncategorized/60.Kudu常用Api(java)/">Kudu常用Api(java) </a></li><li class="post-list-item"><a class="post-list-link" href="/uncategorized/60.CentOS7安装单机版Kudu/">CentOS7安装单机版Kudu </a></li><li class="post-list-item"><a class="post-list-link" href="/uncategorized/HBase架构和读写流程/">HBase架构和读写流程</a></li><li class="post-list-item"><a class="post-list-link" href="/uncategorized/HBase的Rowkey设计/">HBase的Rowkey设计</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-biao"> 标签</i></div><div class="tagcloud"><a href="/tags/Spark/" style="font-size: 15px;">Spark</a> <a href="/tags/Hadoop/" style="font-size: 15px;">Hadoop</a> <a href="/tags/Scala/" style="font-size: 15px;">Scala</a> <a href="/tags/Kudu/" style="font-size: 15px;">Kudu</a> <a href="/tags/Flink/" style="font-size: 15px;">Flink</a> <a href="/tags/HBase/" style="font-size: 15px;">HBase</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Shell/" style="font-size: 15px;">Shell</a> <a href="/tags/Flume/" style="font-size: 15px;">Flume</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-archive"> 归档</i></div><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a><span class="archive-list-count">28</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">2</span></li></ul></div></div></div></div><a id="totop" href="#top"></a><div id="footer"> <div class="footer-info"><p><a href="/baidusitemap.xml">网站地图</a> |  <a href="/atom.xml">订阅本站</a> |  <a href="/about/">联系博主</a></p><p>本站总访问量：<i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>次，本站总访客数:<i id="busuanzi_container_site_uv"><i id="busuanzi_value_site_uv"></i></i>人</p><p><span> Copyright &copy;<a href="/." rel="nofollow">暗也橙子.</a></span><span> Theme by<a rel="nofollow" target="_blank" href="https://github.com/zzuUriel/zzuUriel.github.io"> BlueLake.</a></span><span> Count by<a href="http://busuanzi.ibruce.info/"> busuanzi.</a></span><span> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a></span></p></div></div></div><script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script><script type="text/javascript" src="/js/search.json.js?v=2.0.5"></script><div id="fullscreen-img" class="hide"><span class="close"></span></div><script type="text/javascript" src="/js/imgview.js?v=2.0.5" async></script><script type="text/javascript" src="/js/toctotop.js?v=2.0.5" async></script><link rel="stylesheet" type="text/css" href="/share/css/share.css"><script type="text/javascript" src="/share/js/social-share.js" charset="utf-8"></script><script type="text/javascript" src="/share/js/qrcode.js" charset="utf-8"></script></body></html>
