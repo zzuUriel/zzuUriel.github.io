@@ -51,22 +51,15 @@
     </url>
 
     <url>
-        <loc>https://zzuuriel.github.io/tags/Shell/</loc>
-        <lastmod>2020-06-11T13:57:55.220Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://zzuuriel.github.io/tags/Spark/</loc>
-        <lastmod>2020-06-12T04:56:03.688Z</lastmod>
+        <lastmod>2020-06-12T09:21:32.948Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
 
     <url>
-        <loc>https://zzuuriel.github.io/tags/Spark-Shell/</loc>
-        <lastmod>2020-06-12T09:19:14.099Z</lastmod>
+        <loc>https://zzuuriel.github.io/tags/Shell/</loc>
+        <lastmod>2020-06-12T09:21:32.948Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
