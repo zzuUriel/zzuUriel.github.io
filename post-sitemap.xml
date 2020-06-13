@@ -7,6 +7,14 @@
     </url>
 
     <url>
+        <loc>https://zzuuriel.github.io/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Spark%20SQL%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E6%BA%90/</loc>
+        <lastmod>2020-06-13T18:13:13.326Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://zzuuriel.github.io/%E5%A4%A7%E6%95%B0%E6%8D%AE%E6%8A%80%E6%9C%AF/Spark%20SQL%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5&&DataFrame&&Dataset/</loc>
         <lastmod>2020-06-13T07:08:05.088Z</lastmod>
         <changefreq>weekly</changefreq>
