@@ -30,13 +30,6 @@
     </url>
 
     <url>
-        <loc>https://zzuuriel.github.io/tags/Linux/</loc>
-        <lastmod>2020-06-11T13:36:22.461Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://zzuuriel.github.io/tags/Scala/</loc>
         <lastmod>2020-06-11T13:38:27.004Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -58,8 +51,15 @@
     </url>
 
     <url>
+        <loc>https://zzuuriel.github.io/tags/Linux/</loc>
+        <lastmod>2020-06-18T15:41:34.692Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
         <loc>https://zzuuriel.github.io/tags/Spark/</loc>
-        <lastmod>2020-06-18T10:10:32.434Z</lastmod>
+        <lastmod>2020-06-18T15:42:18.238Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
