@@ -1,0 +1,132 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content=""><link rel="stylesheet" type="text/css" href="//fonts.loli.net/css?family=Source+Code+Pro"><link rel="stylesheet" type="text/css" href="/css/style-dark.css?v=2.0.5"><link rel="stylesheet" type="text/css" href="/css/highlight-dark.css?v=2.0.5"><link rel="Shortcut Icon" href="/favicon.ico"><link rel="bookmark" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><title>Spark Streaming+Kafka提交服务器&amp;窗口函数&amp;SS调优 | 暗也橙子Blog</title></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Spark Streaming+Kafka提交服务器&amp;窗口函数&amp;SS调优</h1><a id="logo" href="/.">暗也橙子Blog</a><p class="description"></p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a></div><div id="search-form"><div id="result-mask" class="hide"></div><label><input id="search-key" type="text" autocomplete="off" placeholder="搜索"></label><div id="result-wrap" class="hide"><div id="search-result"></div></div><div class="hide"><template id="search-tpl"><div class="item"><a href="/{path}" title="{title}"><div class="title">{title}</div><div class="time">{date}</div><div class="tags">{tags}</div></a></div></template></div></div></div><div id="layout" class="layout-g"><div class="layout-l"><div class="content_container"><div class="post"><h1 class="post-title">Spark Streaming+Kafka提交服务器&amp;窗口函数&amp;SS调优</h1><div class="post-meta"><a href="/大数据技术/Spark Streaming+Kafka提交服务器&amp;窗口函数&amp;SS调优/#comments" class="comment-count"></a><p><span class="date">Aug 25, 2019</span><span><a href="/categories/大数据技术/" class="category">大数据技术</a></span><span><i id="busuanzi_container_page_pv"><i id="busuanzi_value_page_pv"></i><i>点击</i></i></span></p></div><div class="post-content"><h3 id="spark-streamingkafka提交服务器amp窗口函数ampss调优">Spark Streaming+Kafka提交服务器&amp;窗口函数&amp;SS调优</h3>
+<hr>
+<h4 id="spark-streamingkafka提交服务器">Spark Streaming+Kafka提交服务器</h4>
+<p>开发好的代码打包到服务器运行时，有时会缺少相关依赖，下面列举了三种添加依赖的方法：</p>
+<ul>
+<li>直接在IDEA中打胖包，但是服务器上有的东西需要标识为provided，不然依赖重复了，这种方式不推荐</li>
+<li>提交Application的时候使用–packages参数，格式为: groupId:artifactId:version，这种方式需要在有网络的情况下才能使用</li>
+<li>推荐使用–jars 传入依赖，当需要传入的jar包过多时，可以将需要的 jar 包放在固定目录下，只需要使用 $(echo /home/hadoop/lib/*.jar | tr ‘ ‘ ‘,’)即可以将目录下的 jar 包全都拼接上去</li>
+</ul>
+<p>1.WC案例</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">object StreamingWCApp &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> groupId:<span class="built_in">String</span> = _</span><br><span class="line">  <span class="keyword">var</span> topic:<span class="built_in">String</span> = _</span><br><span class="line">  <span class="keyword">var</span> brokers:<span class="built_in">String</span> = _</span><br><span class="line"></span><br><span class="line">  def main(args: <span class="built_in">Array</span>[<span class="built_in">String</span>]): Unit = &#123;</span><br><span class="line"></span><br><span class="line">    val conf = <span class="keyword">new</span> SparkConf()</span><br><span class="line">      .setMaster(<span class="string">"local[2]"</span>)   <span class="comment">//本地测试用，打包到服务器时传入</span></span><br><span class="line">      .setAppName(<span class="keyword">this</span>.getClass.getSimpleName)  <span class="comment">//打包到服务器时传入</span></span><br><span class="line">      .set(<span class="string">"spark.streaming.kafka.maxRatePerPartition"</span>,<span class="string">"10"</span>)  <span class="comment">//设置每个Kafka分区读取数据的最大速率 </span></span><br><span class="line">      .set(<span class="string">"spark.streaming.backpressure.enabled"</span>,<span class="string">"true"</span>) <span class="comment">//开启背压</span></span><br><span class="line">      .set(<span class="string">"spark.streaming.stopGracefullyOnShutdown"</span>,<span class="string">"true"</span>)  <span class="comment">//优雅地关闭“StreamingContext”</span></span><br><span class="line">	  </span><br><span class="line">    val ssc = <span class="keyword">new</span> StreamingContext(conf, Seconds(<span class="number">5</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (args.length&lt;<span class="number">3</span>)&#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Usage: com.tunan.spark.streming.kafka.wc.wc_ss_kafka &lt;groupId&gt; &lt;topic&gt; &lt;brokers&gt;"</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    groupId = args(<span class="number">0</span>)</span><br><span class="line">    topic = args(<span class="number">1</span>)</span><br><span class="line">    brokers = args(<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    val kafkaParams = <span class="built_in">Map</span>[<span class="built_in">String</span>, <span class="built_in">Object</span>](</span><br><span class="line">      <span class="string">"bootstrap.servers"</span> -&gt; brokers,</span><br><span class="line">      <span class="string">"key.deserializer"</span> -&gt; classOf[StringDeserializer],</span><br><span class="line">      <span class="string">"value.deserializer"</span> -&gt; classOf[StringDeserializer],</span><br><span class="line">      <span class="string">"group.id"</span> -&gt; groupId,</span><br><span class="line">      <span class="string">"auto.offset.reset"</span> -&gt; <span class="string">"earliest"</span>, <span class="comment">//latest</span></span><br><span class="line">      <span class="string">"enable.auto.commit"</span> -&gt; (<span class="literal">false</span>: java.lang.Boolean)</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    val topics = <span class="built_in">Array</span>(topic)</span><br><span class="line">    val stream = KafkaUtils.createDirectStream[<span class="built_in">String</span>, <span class="built_in">String</span>](</span><br><span class="line">      ssc,</span><br><span class="line">      PreferConsistent,</span><br><span class="line">      Subscribe[<span class="built_in">String</span>, <span class="built_in">String</span>](topics, kafkaParams)</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    stream.map(<span class="function"><span class="params">x</span>=&gt;</span>(x.value(),<span class="number">1</span>)).reduceByKey(_+_).foreachRDD(<span class="function"><span class="params">rdd</span> =&gt;</span>&#123;</span><br><span class="line">      rdd.foreach(println)</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    ssc.start()</span><br><span class="line">    ssc.awaitTermination()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2.打包到服务器前在IDEA进行测试<br>
+Program arguments:wc_group_id_for_each_stream ruozedata3partstopic hadoop000:9092,hadoop000:9093,hadoop000:9094<br>
+3.在libtest下传入依赖的jar包</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[hadoop@hadoop000 libtest]$ ll</span><br><span class="line">total <span class="number">1988</span></span><br><span class="line">-rw-r--r-- <span class="number">1</span> hadoop hadoop <span class="number">1893564</span> Aug <span class="number">22</span> <span class="number">11</span>:<span class="number">09</span> kafka-clients<span class="number">-2.0</span><span class="number">.0</span>.jar</span><br><span class="line">-rw-r--r-- <span class="number">1</span> hadoop hadoop  <span class="number">138970</span> Aug <span class="number">22</span> <span class="number">11</span>:<span class="number">09</span> spark-streaming-kafka<span class="number">-0</span><span class="number">-10</span>_2<span class="number">.12</span><span class="number">-2.4</span><span class="number">.5</span>.jar</span><br></pre></td></tr></table></figure>
+<p>4.提交作业</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">spark-submit \</span><br><span class="line">--<span class="class"><span class="keyword">class</span> <span class="title">com</span>.<span class="title">ruozedata</span>.<span class="title">spark</span>.<span class="title">streaming</span>.<span class="title">StreamingWCApp</span> \</span></span><br><span class="line">--master local[2] \</span><br><span class="line">--deploy-mode client \</span><br><span class="line">--jars $(echo /home/hadoop/libtest<span class="comment">/*.jar | tr ' ' ',') \</span></span><br><span class="line"><span class="comment">/home/hadoop/lib/ruozedata-spark-streaming-1.0.jar \</span></span><br><span class="line"><span class="comment">wc_group_id_for_each_stream ruozedata3partstopic hadoop000:9092,hadoop000:9093,hadoop000:9094</span></span><br></pre></td></tr></table></figure>
+<h4 id="窗口函数">窗口函数</h4>
+<p>在工作中常常有这样的需求:</p>
+<p>每隔5秒钟统计前10秒钟的数据<br>
+每隔1分钟统计前5分钟的数据</p>
+<p>这类每隔多少统计前多少时间的操作就是窗口操作</p>
+<p>我们以一个例子来说明窗口操作。 对之前的单词计数的示例进行扩展，每10秒钟对过去30秒的数据进行wordcount。为此，我们必须在最近30秒的DStream数据中对键值对应用reduceByKey操作。这是通过使用reduceByKeyAndWindow操作完成的</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 每隔10秒统计前30秒的数据</span></span><br><span class="line">stream.map(<span class="function"><span class="params">x</span>=&gt;</span><span class="function">(<span class="params">x.value(</span>),1)).<span class="params">reduceByKeyAndWindow</span>(<span class="params">(a:Int,b:Int</span>)=&gt;</span>a+b,Seconds(<span class="number">30</span>),Seconds(<span class="number">10</span>))</span><br><span class="line">.foreachRDD(<span class="function"><span class="params">rdd</span> =&gt;</span>&#123;</span><br><span class="line">    rdd.foreach(println)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>一些常见的窗口操作如下所示。所有这些操作都用到了两个参数：windowLength和slideInterval。</p>
+<ul>
+<li>window(windowLength, slideInterval)<br>
+基于源DStream产生的窗口化的批数据计算一个新的DStream</li>
+<li>countByWindow(windowLength, slideInterval)<br>
+返回流中元素的一个滑动窗口数</li>
+<li>reduceByWindow(func, windowLength, slideInterval)<br>
+返回一个单元素流。利用函数func聚集滑动时间间隔的流的元素创建这个单元素流。函数必须是相关联的以使计算能够正确的并行计算。</li>
+<li>reduceByKeyAndWindow(func, windowLength, slideInterval, [numTasks])<br>
+应用到一个(K,V)对组成的DStream上，返回一个由(K,V)对组成的新的DStream。每一个key的值均由给定的reduce函数聚集起来。注意：在默认情况下，这个算子利用了Spark默认的并发任务数去分组。你可以用numTasks参数设置不同的任务数</li>
+<li>reduceByKeyAndWindow(func, invFunc, windowLength, slideInterval, [numTasks])<br>
+上述reduceByKeyAndWindow()的更高效的版本，其中使用前一窗口的reduce计算结果递增地计算每个窗口的reduce值。这是通过对进入滑动窗口的新数据进行reduce操作，以及“逆减（inverse reducing）”离开窗口的旧数据来完成的。一个例子是当窗口滑动时对键对应的值进行“一加一减”操作。但是，它仅适用于“可逆减函数（invertible reduce functions）”，即具有相应“反减”功能的减函数（作为参数invFunc）。 像reduceByKeyAndWindow一样，通过可选参数可以配置reduce任务的数量。 请注意，使用此操作必须启用检查点。</li>
+<li>countByValueAndWindow(windowLength, slideInterval, [numTasks])<br>
+应用到一个(K,V)对组成的DStream上，返回一个由(K,V)对组成的新的DStream。每个key的值都是它们在滑动窗口中出现的频率</li>
+</ul>
+<h4 id="spark-streaming调优">Spark Streaming调优</h4>
+<p>通过spark-shell运行Spark Streaming + Kafka程序，查看Web UI界面<br>
+<img src="/img/spark/Streaming_UI.jpg" alt="what-is-spark-streaming.png"><br>
+1.我们需要作业的性能最高，那么需要一个最佳batch time</p>
+<ul>
+<li>在下一个批次启动作业之前一定要运行完前一个批次数据的处理</li>
+<li>根据需求确定合适的batch time</li>
+</ul>
+<p>2.影响任务运行时长的要素：</p>
+<ul>
+<li>数据规模(增加kafka分区数==&gt;增加Spark分区==&gt;增加task)</li>
+<li>batch time</li>
+<li>业务复杂度</li>
+</ul>
+<p>3.kafka限速<br>
+我们看到在设置auto.offset.reset = earliest后，即从头消费，如果累积的数据量特别大，那么在第一次消费的就会撑爆Kafka，必须限制从每个Kafka分区读取数据的速率</p>
+<table>
+<thead>
+<tr>
+<th>Property Name</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>spark.streaming.kafka.maxRatePerPartition</td>
+<td>not set</td>
+<td>每个Kafka分区读取数据的最大速率</td>
+</tr>
+</tbody>
+</table>
+<p>在设置maxRatePerPartition的值时，数据量=设置的<em>值</em>分区数<em>读取时间，加入设置的值为10,分区为3，读取时间为10s，那么每个批次出来的数据量: 10</em>3*10=300</p>
+<p>优点</p>
+<ul>
+<li>当有很多数据量没有处理，或者每次都从头开始数据的时候，可以防止过载</li>
+<li>高峰期限速，防止Kafka处理能力不够挂掉</li>
+</ul>
+<p>缺点</p>
+<ul>
+<li>是个固定值</li>
+</ul>
+<p>基于于spark.streaming.kafka.maxRatePerPartition的局限性，在Spark1.5引入了背压(backpressure )的概念，，它可以在运行时根据前一个批次数据的运行情况动态调整后续批次读入的数据量</p>
+<ul>
+<li>打开参数：spark.streaming.backpressure.enabled</li>
+<li>上限参数：spark.streaming.kafka.maxRatePerPartition</li>
+<li>初始参数：spark.streaming.backpressure.initialRate</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Property Name</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>spark.streaming.backpressure.enabled</td>
+<td>false</td>
+<td>使Spark流能够根据当前的批调度延迟和处理时间来控制接收速率，从而使系统接收的速度只取决于系统能够处理的速度。</td>
+</tr>
+<tr>
+<td>spark.streaming.kafka.maxRatePerPartition</td>
+<td>not set</td>
+<td>每个Kafka分区读取数据的最大速率</td>
+</tr>
+<tr>
+<td>spark.streaming.backpressure.initialRate</td>
+<td>not set</td>
+<td>启用背压机制时每个接收器接收第一批数据的初始最大接收速率</td>
+</tr>
+</tbody>
+</table>
+<p>到此，Kafka数据量过载的问题完全解决</p>
+<p>4.最后引入一个关于StreamingContext关闭时的参数</p>
+<table>
+<thead>
+<tr>
+<th>Property Name</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>spark.streaming.stopGracefullyOnShutdown</td>
+<td>false</td>
+<td>如果是“true”，Spark会在JVM关闭时优雅地关闭“StreamingContext”，而不是立即关闭。</td>
+</tr>
+</tbody>
+</table>
+</div><div class="post-copyright"><blockquote><p>原文作者: 暗也橙子</p><p>原文链接: <a href="https://zzuuriel.github.io/大数据技术/Spark Streaming+Kafka提交服务器&amp;窗口函数&amp;SS调优/">https://zzuuriel.github.io/大数据技术/Spark Streaming+Kafka提交服务器&amp;窗口函数&amp;SS调优/</a></p><p>版权声明: 转载请注明出处(必须保留作者署名及链接)</p></blockquote></div><div class="tags"><a href="/tags/Spark/">Spark</a><a href="/tags/Kafka/">Kafka</a></div><div class="post-share"><div class="social-share"><span>分享到:</span></div></div><div class="post-nav"><a href="/大数据技术/HBase的Rowkey设计/" class="pre">HBase的Rowkey设计</a><a href="/大数据技术/Spark Streaming读取kafka数据的两种方式(Receiver和Direct)/" class="next">Spark Streaming读取kafka数据的两种方式(Receiver和Direct)</a></div><div id="comments"></div></div></div></div><div class="layout-r"><div id="sidebar"><div class="search-pla"></div><div id="toc" class="widget"><div class="widget-title"><i class="fa fa-fei">文章目录</i></div><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#spark-streamingkafka提交服务器amp窗口函数ampss调优"><span class="toc-text">Spark Streaming+Kafka&#x63D0;&#x4EA4;&#x670D;&#x52A1;&#x5668;&amp;&#x7A97;&#x53E3;&#x51FD;&#x6570;&amp;SS&#x8C03;&#x4F18;</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#spark-streamingkafka提交服务器"><span class="toc-text">Spark Streaming+Kafka&#x63D0;&#x4EA4;&#x670D;&#x52A1;&#x5668;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#窗口函数"><span class="toc-text">&#x7A97;&#x53E3;&#x51FD;&#x6570;</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#spark-streaming调优"><span class="toc-text">Spark Streaming&#x8C03;&#x4F18;</span></a></li></ol></li></ol></div><div class="widget"><div class="widget-title"><i class="fa fa-xie"> 最新文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/大数据技术/修改Flume源码使taildir source支持递归（可配置）/">修改Flume源码使taildir source支持递归（可配置）</a></li><li class="post-list-item"><a class="post-list-link" href="/大数据技术/解决Spark on YARN时jar包乱飞的问题/">解决Spark on YARN时jar包乱飞的问题</a></li><li class="post-list-item"><a class="post-list-link" href="/大数据技术/Flink之Watermark理解/">Flink之Watermark理解</a></li><li class="post-list-item"><a class="post-list-link" href="/大数据技术/2.spark-2.4.5-bin-2.6.0-cdh5.15.1.tgz/"> Spark-2.4.5源码编译</a></li><li class="post-list-item"><a class="post-list-link" href="/大数据技术/Flink自定义触发器/">Flink自定义触发器</a></li><li class="post-list-item"><a class="post-list-link" href="/大数据技术/60.深入理解Spark算子aggregate/">深入理解Spark算子aggregate</a></li><li class="post-list-item"><a class="post-list-link" href="/大数据技术/60.Kudu常用Api(java)/">Kudu常用Api(java) </a></li><li class="post-list-item"><a class="post-list-link" href="/大数据技术/60.CentOS7安装单机版Kudu/">CentOS7安装单机版Kudu </a></li><li class="post-list-item"><a class="post-list-link" href="/大数据技术/HBase架构和读写流程/">HBase架构和读写流程</a></li><li class="post-list-item"><a class="post-list-link" href="/大数据技术/HBase的Rowkey设计/">HBase的Rowkey设计</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-gui"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Linux基础/">Linux基础</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Scala编程语言/">Scala编程语言</a><span class="category-list-count">8</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/大数据技术/">大数据技术</a><span class="category-list-count">38</span></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-biao"> 标签</i></div><div class="tagcloud"><a href="/tags/Spark/" style="font-size: 15px;">Spark</a> <a href="/tags/Hadoop/" style="font-size: 15px;">Hadoop</a> <a href="/tags/Scala/" style="font-size: 15px;">Scala</a> <a href="/tags/Kudu/" style="font-size: 15px;">Kudu</a> <a href="/tags/Flink/" style="font-size: 15px;">Flink</a> <a href="/tags/HBase/" style="font-size: 15px;">HBase</a> <a href="/tags/Linux/" style="font-size: 15px;">Linux</a> <a href="/tags/Shell/" style="font-size: 15px;">Shell</a> <a href="/tags/Kafka/" style="font-size: 15px;">Kafka</a> <a href="/tags/Flume/" style="font-size: 15px;">Flume</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-archive"> 归档</i></div><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/">2020</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/">2019</a><span class="archive-list-count">43</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/">2018</a><span class="archive-list-count">5</span></li></ul></div></div></div></div><a id="totop" href="#top"></a><div id="footer"> <div class="footer-info"><p><a href="/baidusitemap.xml">网站地图</a> |  <a href="/atom.xml">订阅本站</a> |  <a href="/about/">联系博主</a></p><p>本站总访问量：<i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>次，本站总访客数:<i id="busuanzi_container_site_uv"><i id="busuanzi_value_site_uv"></i></i>人</p><p><span> Copyright &copy;<a href="/." rel="nofollow">暗也橙子.</a></span><span> Theme by<a rel="nofollow" target="_blank" href="https://github.com/zzuUriel/zzuUriel.github.io"> BlueLake.</a></span><span> Count by<a href="http://busuanzi.ibruce.info/"> busuanzi.</a></span><span> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a></span></p></div></div></div><script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script><script type="text/javascript" src="/js/search.json.js?v=2.0.5"></script><div id="fullscreen-img" class="hide"><span class="close"></span></div><script type="text/javascript" src="/js/imgview.js?v=2.0.5" async></script><script type="text/javascript" src="/js/toctotop.js?v=2.0.5" async></script><link rel="stylesheet" type="text/css" href="/share/css/share.css"><script type="text/javascript" src="/share/js/social-share.js" charset="utf-8"></script><script type="text/javascript" src="/share/js/qrcode.js" charset="utf-8"></script></body></html>
