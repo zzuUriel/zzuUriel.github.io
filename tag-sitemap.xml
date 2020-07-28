@@ -65,13 +65,6 @@
     </url>
 
     <url>
-        <loc>https://zzuuriel.github.io/tags/Kafka/</loc>
-        <lastmod>2020-07-07T11:20:21.084Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.2</priority>
-    </url>
-
-    <url>
         <loc>https://zzuuriel.github.io/tags/Spark/</loc>
         <lastmod>2020-07-22T04:27:03.880Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -80,7 +73,14 @@
 
     <url>
         <loc>https://zzuuriel.github.io/tags/CDH/</loc>
-        <lastmod>2020-07-22T04:27:03.880Z</lastmod>
+        <lastmod>2020-07-22T05:12:05.048Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.2</priority>
+    </url>
+
+    <url>
+        <loc>https://zzuuriel.github.io/tags/Kafka/</loc>
+        <lastmod>2020-07-22T05:12:05.048Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.2</priority>
     </url>
